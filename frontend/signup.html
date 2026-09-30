@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register Account | UrbanSense AI Platform</title>
+<!-- Zero-flash theme initialization -->
+<script>
+(function(){
+  var s = localStorage.getItem('urbansense_theme');
+  var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<style>
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-void);
+}
+.auth-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-panel);
+}
+.signup-card {
+  max-width: 580px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 40px 36px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-popup);
+}
+.form-card-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.form-card-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+.form-group {
+  margin-bottom: 18px;
+}
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 13px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+}
+.form-input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 600px) {
+  .form-grid-2 { grid-template-columns: 1fr; }
+}
+.role-select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 13px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  background: var(--accent-cyan);
+  color: #001018;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--glow-cyan);
+  transition: all var(--transition-fast);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+[data-theme="light"] .btn-submit {
+  background: #2563EB;
+  color: #FFFFFF;
+}
+.btn-submit:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.form-bottom-text {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 20px;
+}
+.auth-error-msg {
+  display: none;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid var(--accent-red);
+  color: var(--accent-red);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+.terms-agreement {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+.terms-agreement input {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.terms-agreement a {
+  color: var(--accent-cyan);
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<header class="auth-nav">
+  <a href="index.html" class="landing-logo">
+    <div class="landing-logo-mark">U</div>
+    <div>
+      <div class="landing-logo-text">UrbanSense AI</div>
+      <div class="landing-logo-tag">Account Registration</div>
+    </div>
+  </a>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+      <span class="theme-toggle-icon">☀️</span>
+      <span class="theme-toggle-label">Theme</span>
+    </button>
+    <a href="login.html" class="btn btn-sm btn-ghost">Already have an account? Sign In</a>
+  </div>
+</header>
+
+<main style="flex:1; padding: 0 20px;">
+  <div class="signup-card">
+    <h1 class="form-card-title">Register Institutional Account</h1>
+    <p class="form-card-sub">Access mobile urban sensing telemetry, GIS heatmaps, and work orders</p>
+
+    <div id="signupErrorMsg" class="auth-error-msg"></div>
+
+    <form id="signupForm" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="fullName">Full Legal Name</label>
+        <input type="text" id="fullName" class="form-input" placeholder="e.g. Ramesh Kumar" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="signupEmail">Official Departmental Email</label>
+        <input type="email" id="signupEmail" class="form-input" placeholder="name@bbmp.gov.in or name@agency.in" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="userRole">Organizational Role</label>
+        <select id="userRole" class="role-select" required>
+          <option value="Command Center">Command Center Operator (Central ICCC)</option>
+          <option value="Municipal">Municipal Officer / Urban Planner (ULB)</option>
+          <option value="Field Ops">Field Operations Engineer / Contractor</option>
+        </select>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label" for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" class="form-input" placeholder="Min. 8 characters" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" class="form-input" placeholder="Re-type password" required>
+        </div>
+      </div>
+
+      <div class="terms-agreement">
+        <input type="checkbox" id="agreeTerms" required>
+        <label for="agreeTerms">
+          I agree to the <a href="terms.html" target="_blank">Terms and Conditions</a> and acknowledge the <a href="privacy.html" target="_blank">Privacy Policy</a> governing civic telemetry under the DPDP Act 2023.
+        </label>
+      </div>
+
+      <button type="submit" class="btn-submit" id="signupSubmitBtn">
+        <span>Create Account</span>
+        <span>→</span>
+      </button>
+
+      <div class="form-bottom-text">
+        Already have an account? <a href="login.html" class="form-link" style="color:var(--accent-cyan); text-decoration:none; font-weight:600;">Sign in</a>
+      </div>
+    </form>
+  </div>
+</main>
+
+<!-- Legal Footer -->
+<footer class="site-footer" style="max-width: 580px; margin: 0 auto 30px;">
+  <div class="footer-top">
+    <nav class="footer-nav" style="justify-content:center; width:100%;">
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="privacy.html#cookies">Cookie Policy</a>
+      <a href="privacy.html#security">Security</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+  <div class="footer-bottom" style="text-align:center; justify-content:center;">
+    <div>&copy; 2026 UrbanSense AI. Protected by Indian Cyber Law &amp; DPDP Act 2023.</div>
+  </div>
+</footer>
+
+<script src="js/components/theme-toggle.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('signupForm');
+  var errorMsg = document.getElementById('signupErrorMsg');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('fullName').value.trim();
+    var email = document.getElementById('signupEmail').value.trim();
+    var role = document.getElementById('userRole').value;
+    var pwd = document.getElementById('signupPassword').value;
+    var confirmPwd = document.getElementById('confirmPassword').value;
+    var agree = document.getElementById('agreeTerms').checked;
+
+    if (!name) {
+      showError('Please provide your full legal name.');
+      return;
+    }
+    if (!email || !email.includes('@')) {
+      showError('Please enter a valid departmental or municipal email address.');
+      return;
+    }
+    if (!pwd || pwd.length < 8) {
+      showError('Password must be at least 8 characters long.');
+      return;
+    }
+    if (pwd !== confirmPwd) {
+      showError('Passwords do not match. Please verify your password.');
+      return;
+    }
+    if (!agree) {
+      showError('You must agree to the Terms and Conditions and Privacy Policy to register.');
+      return;
+    }
+
+    var user = {
+      name: name,
+      email: email,
+      role: role,
+      registeredAt: new Date().toISOString()
+    };
+
+    try {
+      localStorage.setItem('urbansense_user', JSON.stringify(user));
+      localStorage.setItem('urbansense_authenticated', 'true');
+    } catch (err) {}
+
+    var submitBtn = document.getElementById('signupSubmitBtn');
+    submitBtn.innerHTML = '<span>Creating Account...</span> <span class="status-dot"></span>';
+
+    setTimeout(function () {
+      window.location.href = 'dashboard.html';
+    }, 700);
+  });
+
+  function showError(msg) {
+    errorMsg.textContent = msg;
+    errorMsg.style.display = 'block';
+  }
+});
+</script>
+</body>
+</html>

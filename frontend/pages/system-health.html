@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Health &amp; Security | UrbanSense AI</title>
+<!-- Zero-flash theme initialization -->
+<script>
+(function(){
+  var s = localStorage.getItem('urbansense_theme');
+  var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/themes.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/shell.css">
+<style>
+.service-row, .login-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 12px;
+}
+.service-row:last-child, .login-row:last-child {
+  border-bottom: none;
+}
+.service-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 6px var(--accent-green);
+}
+.service-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+.service-latency {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+.service-status {
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 230, 138, 0.12);
+  color: var(--accent-green);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+.policy-item {
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.login-time {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+.login-user {
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+.login-ip {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+.login-status {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent-green);
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo"><div class="logo-mark">U</div><div><div class="logo-title">UrbanSense</div><div class="logo-subtitle">AI COMMAND</div></div></div>
+    <nav class="nav-menu">
+      <div class="nav-group-label">MONITOR</div>
+      <a href="../dashboard.html"       class="nav-item"><span>◈</span><span>Dashboard</span></a>
+      <a href="gis.html"         class="nav-item"><span>◎</span><span>Live GIS Map</span></a>
+      <a href="scanner.html"     class="nav-item"><span>◉</span><span>AI Detection</span></a>
+      <a href="vehicle-intel.html" class="nav-item"><span>🚗</span><span>Vehicle Intel</span><span class="badge-new">NEW</span></a>
+      <div class="nav-group-label">INTELLIGENCE</div>
+      <a href="ocr.html"         class="nav-item"><span>🔢</span><span>Number Plate</span><span class="badge-new">NEW</span></a>
+      <a href="road-health.html" class="nav-item"><span>🛣️</span><span>Road Infrastructure</span></a>
+      <a href="incidents.html"   class="nav-item"><span>⚠</span><span>Incidents</span></a>
+      <a href="traffic.html"     class="nav-item"><span>⇄</span><span>Traffic Analytics</span></a>
+      <div class="nav-group-label">OPERATIONS</div>
+      <a href="fleet.html"       class="nav-item"><span>▣</span><span>Fleet &amp; Routes</span></a>
+      <a href="reports.html"     class="nav-item"><span>▤</span><span>Analytics &amp; Reports</span></a>
+      <a href="government.html"  class="nav-item"><span>🏛️</span><span>Government Action</span><span class="badge-new">NEW</span></a>
+      <a href="field-ops.html"   class="nav-item"><span>👷</span><span>Field Operations</span><span class="badge-new">NEW</span></a>
+      <a href="system-health.html" class="nav-item active"><span>⚙️</span><span>System Health</span></a>
+      <button class="nav-item" id="chatbotBtn" style="color:var(--accent-cyan);"><span>💬</span><span>AI Assistant</span></button>
+      <button class="nav-item" id="resetDemoBtn" style="width:100%; margin-top:12px; color:var(--accent-red);"><span>⟲</span><span>Reset Demo</span></button>
+    </nav>
+    <div class="sidebar-status"><strong><span class="status-dot"></span> System Online</strong><small>Frontend simulation</small></div>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div>
+        <div class="page-kicker">INFRASTRUCTURE · TELEMETRY</div>
+        <h1>System Health &amp; Security</h1>
+        <p>Real-time compute nodes, microservices status, cryptographic audit, and DPDP compliance telemetry</p>
+      </div>
+      <div class="page-actions">
+        <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <span class="theme-toggle-icon">☀️</span>
+          <span class="theme-toggle-label">Theme</span>
+        </button>
+        <div class="live-badge"><span class="status-dot"></span>TELEMETRY LIVE</div>
+        <div class="live-clock" id="liveClock">00:00:00</div>
+      </div>
+    </header>
+
+    <!-- Health Metrics Grid -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-top"><span class="kpi-label">Edge CPU Load</span><span class="kpi-icon">⚡</span></div>
+        <div class="kpi-value" id="shCpu">28<span class="unit">%</span></div>
+        <div class="progress-track" style="margin-top:10px;"><div class="progress-fill" id="shCpuBar" style="width:28%;"></div></div>
+      </div>
+      <div class="kpi-card kpi-amber">
+        <div class="kpi-top"><span class="kpi-label">RAM Utilization</span><span class="kpi-icon kpi-icon-amber">💾</span></div>
+        <div class="kpi-value" id="shMem">42<span class="unit">%</span></div>
+        <div class="progress-track" style="margin-top:10px;"><div class="progress-fill amber" id="shMemBar" style="width:42%;"></div></div>
+      </div>
+      <div class="kpi-card kpi-green">
+        <div class="kpi-top"><span class="kpi-label">Pipeline Latency</span><span class="kpi-icon kpi-icon-green">⏱️</span></div>
+        <div class="kpi-value" id="shLatency">38<span class="unit">ms</span></div>
+        <div class="kpi-bottom"><span id="shLatencySub">Average response</span></div>
+      </div>
+      <div class="kpi-card kpi-violet">
+        <div class="kpi-top"><span class="kpi-label">System Uptime</span><span class="kpi-icon kpi-icon-violet">🚀</span></div>
+        <div class="kpi-value" id="shUptime">99.9%</div>
+        <div class="kpi-bottom"><span id="shUptimeSub">Continuous operations</span></div>
+      </div>
+    </section>
+
+    <!-- Services and Security Grid -->
+    <section class="grid-2">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Microservice Status &amp; Telemetry</h2>
+            <p>Active distributed backend workers</p>
+          </div>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <div id="shServices">
+            <div class="service-row"><span class="service-dot"></span><span class="service-name">GPS Live Broadcast Service</span><span class="service-latency">12 ms</span><span class="service-status">ACTIVE</span></div>
+            <div class="service-row"><span class="service-dot"></span><span class="service-name">YOLOv8 Edge Detection Ingestion</span><span class="service-latency">24 ms</span><span class="service-status">ACTIVE</span></div>
+            <div class="service-row"><span class="service-dot"></span><span class="service-name">GIS Spatial Tile Pipeline</span><span class="service-latency">18 ms</span><span class="service-status">ACTIVE</span></div>
+            <div class="service-row"><span class="service-dot"></span><span class="service-name">DPDP Compliance &amp; Anonymization Gate</span><span class="service-latency">8 ms</span><span class="service-status">ACTIVE</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Cryptographic &amp; Security State</h2>
+            <p>TLS and access controls</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="stat-row"><span class="label">Blocked Threats (24h)</span><span class="value text-green" id="secBlocked">0</span></div>
+          <div class="stat-row"><span class="label">Failed Logins (24h)</span><span class="value" id="secFailed">0</span></div>
+          <div class="stat-row"><span class="label">TLS Enforcement</span><span class="value text-green" id="secTls">TLS 1.3</span></div>
+          <div class="stat-row"><span class="label">Certificate Validity</span><span class="value" id="secCert">324 days</span></div>
+          <div class="stat-row"><span class="label">Authentication Mode</span><span class="value" id="secAuth">RBAC + Tokens</span></div>
+          <div class="stat-row"><span class="label">Multi-Factor Auth (MFA)</span><span class="value text-green" id="secMfa">ENABLED</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Audit Logins & Security Policies -->
+    <section class="grid-2">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Recent Operator Authentications</h2>
+            <p>Audit trail of administrative access</p>
+          </div>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <div id="secLogins">
+            <div class="login-row"><span class="login-time">10:45</span><span class="login-user">operator.bbmp@urbansense.ai</span><span class="login-ip">10.52.79.115</span><span class="login-status">SUCCESS</span></div>
+            <div class="login-row"><span class="login-time">09:12</span><span class="login-user">field.eng@bmtc.gov.in</span><span class="login-ip">10.52.79.120</span><span class="login-status">SUCCESS</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Active Governance Policies</h2>
+            <p>Mandatory DPDP Act &amp; edge constraints</p>
+          </div>
+        </div>
+        <div class="panel-body" style="padding: 16px;">
+          <div id="secPolicies">
+            <div class="policy-item">✓ Zero-Facial-Recognition Rule: Strictly active at edge compiler level.</div>
+            <div class="policy-item">✓ Transient Frame Processing: Raw frames purged from RAM in &lt;100ms.</div>
+            <div class="policy-item">✓ Domestic Data Residency: All storage pinned to Indian sovereign data centres.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platform Footer -->
+    <footer class="site-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-mark">U</div>
+          <div>
+            <div class="footer-brand-text">UrbanSense AI Platform</div>
+            <div class="footer-brand-sub">Mobile Urban Sensing &amp; Infrastructure Intelligence</div>
+          </div>
+        </div>
+        <nav class="footer-nav">
+          <a href="../terms.html">Terms of Service</a>
+          <a href="../privacy.html">Privacy Policy</a>
+          <a href="../privacy.html#cookies">Cookie Policy</a>
+          <a href="../privacy.html#security">Security</a>
+          <a href="../contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 UrbanSense AI. All rights reserved. Built for intelligent civic governance.</div>
+        <div class="footer-badge"><span class="status-dot"></span> DPDP Act 2023 Compliant · Data Stored in India</div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script src="../js/core/app.js"></script>
+<script src="../js/components/theme-toggle.js"></script>
+<script src="../js/pages/system-health.js"></script>
+<script src="../js/pages/demo-mode.js"></script>
+</body>
+</html>

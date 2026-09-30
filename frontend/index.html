@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UrbanSense AI — Turning City Buses Into Urban Intelligence</title>
+<meta name="description" content="An AI-powered platform that transforms public transport fleets into mobile sensing networks for road safety, traffic management, and municipal response.">
+<!-- Zero-flash theme initialization -->
+<script>
+(function(){
+  var s = localStorage.getItem('urbansense_theme');
+  var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<style>
+/* =========================================================
+   LANDING PAGE STYLES
+   Airy, modern, Linear/Stripe aesthetic in light mode & cyber-navy in dark mode
+   ========================================================= */
+
+.landing-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--header-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 14px 32px;
+}
+
+.landing-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.landing-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.landing-logo-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+  color: #001018;
+  font-weight: 800;
+  font-size: 17px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--glow-cyan);
+}
+
+[data-theme="light"] .landing-logo-mark {
+  background: linear-gradient(135deg, #2563EB, #7C3AED);
+  color: #FFFFFF;
+}
+
+.landing-logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.landing-logo-tag {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  letter-spacing: 1.2px;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+}
+
+.landing-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.landing-links a {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.landing-links a:hover {
+  color: var(--accent-cyan);
+}
+
+.landing-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  padding: 100px 24px 80px;
+  text-align: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-pill .pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 8px var(--accent-green);
+}
+
+.hero-title {
+  font-size: clamp(34px, 5.5vw, 62px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 22px;
+}
+
+.hero-title span.gradient-text {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .hero-title span.gradient-text {
+  background: linear-gradient(135deg, #2563EB, #7C3AED);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subhead {
+  font-size: clamp(16px, 2vw, 19px);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 760px;
+  margin: 0 auto 36px;
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.btn-hero {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.btn-hero-primary {
+  background: var(--accent-cyan);
+  color: #001018;
+  box-shadow: var(--glow-cyan);
+  border: 1px solid var(--accent-cyan);
+}
+
+[data-theme="light"] .btn-hero-primary {
+  background: #2563EB;
+  color: #FFFFFF;
+  border-color: #2563EB;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.btn-hero-secondary {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+}
+
+.btn-hero-secondary:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent-cyan);
+  transform: translateY(-2px);
+}
+
+.btn-hero-ghost {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.btn-hero-ghost:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  background: var(--bg-elevated);
+}
+
+/* Dashboard Mockup Preview */
+.hero-mockup-wrap {
+  position: relative;
+  max-width: 1040px;
+  margin: 0 auto;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-popup);
+  overflow: hidden;
+  background: var(--bg-panel);
+}
+
+.mockup-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.mockup-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.mockup-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.mockup-dot.red { background: #FF5F56; }
+.mockup-dot.yellow { background: #FFBD2E; }
+.mockup-dot.green { background: #27C93F; }
+
+.mockup-content {
+  padding: 24px;
+}
+
+/* Sections */
+.section {
+  padding: 80px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-head {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 50px;
+}
+
+.section-kicker {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-size: clamp(26px, 3.5vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+}
+
+.section-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* Problem & Solution Cards */
+.problem-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 30px 36px;
+  margin-bottom: 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.problem-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--accent-amber);
+}
+
+.problem-box h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.problem-box p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.feature-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 860px) {
+  .feature-grid-3 { grid-template-columns: 1fr; }
+}
+
+.feature-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  position: relative;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-cyan);
+  box-shadow: var(--shadow-panel);
+}
+
+.feature-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  margin-bottom: 18px;
+  background: var(--bg-elevated);
+  color: var(--accent-cyan);
+  border: 1px solid var(--border-subtle);
+}
+
+.feature-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.feature-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.feature-tag {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+}
+
+/* Architecture Section */
+.arch-diagram-wrap {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 36px 24px;
+  box-shadow: var(--shadow-panel);
+  overflow-x: auto;
+}
+
+.arch-svg {
+  display: block;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  height: auto;
+}
+
+/* Statistics Grid */
+.stats-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .stats-grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+.stat-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-number {
+  font-size: 38px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.stat-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.stats-disclaimer {
+  text-align: center;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px dashed var(--border-strong);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  display: inline-block;
+  margin: 10px auto 0;
+}
+
+/* CTA Banner */
+.cta-banner {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(124, 58, 237, 0.08));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xl);
+  padding: 60px 32px;
+  text-align: center;
+  box-shadow: var(--shadow-panel);
+}
+
+.cta-banner h2 {
+  font-size: clamp(26px, 3.5vw, 36px);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+}
+
+.cta-banner p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<header class="landing-nav">
+  <div class="landing-nav-inner">
+    <a href="index.html" class="landing-logo">
+      <div class="landing-logo-mark">U</div>
+      <div>
+        <div class="landing-logo-text">UrbanSense AI</div>
+        <div class="landing-logo-tag">Civic Intelligence</div>
+      </div>
+    </a>
+
+    <nav class="landing-links">
+      <a href="#about">Overview</a>
+      <a href="#features">Capabilities</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#metrics">Impact</a>
+      <a href="dashboard.html">Live Command Center</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="landing-nav-actions">
+      <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+        <span class="theme-toggle-icon">☀️</span>
+        <span class="theme-toggle-label">Theme</span>
+      </button>
+      <a href="login.html" class="btn btn-sm btn-ghost">Sign In</a>
+      <a href="dashboard.html" class="btn btn-sm btn-primary">Open Console →</a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-pill">
+    <span class="pulse-dot"></span>
+    <span>Autonomous Mobile Edge Sensing · v2.4 Platform</span>
+  </div>
+
+  <h1 class="hero-title">
+    Turning City Buses Into<br>
+    <span class="gradient-text">Urban Intelligence</span>
+  </h1>
+
+  <p class="hero-subhead">
+    An AI-powered platform that transforms public transport fleets into mobile sensing networks for road safety, traffic management, and municipal response.
+  </p>
+
+  <div class="hero-ctas">
+    <a href="dashboard.html" class="btn-hero btn-hero-primary">
+      <span>🚀</span>
+      <span>Explore Live Command Center</span>
+    </a>
+    <a href="login.html" class="btn-hero btn-hero-secondary">
+      <span>🔐</span>
+      <span>Sign In</span>
+    </a>
+    <a href="contact.html" class="btn-hero btn-hero-ghost">
+      <span>📞</span>
+      <span>Request Municipal Demo</span>
+    </a>
+  </div>
+
+  <!-- Interactive Dashboard Preview Box -->
+  <div class="hero-mockup-wrap">
+    <div class="mockup-topbar">
+      <div class="mockup-dots">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+      </div>
+      <div>urbansense-command-center.local:5500/dashboard.html</div>
+      <div class="live-badge" style="padding:2px 8px; font-size:9px;"><span class="status-dot"></span>LIVE TELEMETRY</div>
+    </div>
+    <div class="mockup-content">
+      <div class="kpi-grid" style="margin-bottom: 14px;">
+        <div class="kpi-card"><div class="kpi-top"><span class="kpi-label">Active Sensing Fleet</span><span class="kpi-icon">▣</span></div><div class="kpi-value">8<span class="kpi-unit">buses</span></div><div class="kpi-bottom"><span class="kpi-trend up">↑ 100%</span><span>Covering Outer Ring Road</span></div></div>
+        <div class="kpi-card kpi-red"><div class="kpi-top"><span class="kpi-label">Detected Road Hazards</span><span class="kpi-icon kpi-icon-red">⚠</span></div><div class="kpi-value">423<span class="kpi-unit">events</span></div><div class="kpi-bottom"><span class="kpi-trend down">↑ Realtime</span><span>Potholes, waterlogging, cracks</span></div></div>
+        <div class="kpi-card kpi-amber"><div class="kpi-top"><span class="kpi-label">Average Edge Latency</span><span class="kpi-icon kpi-icon-amber">⚡</span></div><div class="kpi-value">42<span class="kpi-unit">ms</span></div><div class="kpi-bottom"><span class="kpi-trend flat">— Local inference</span><span>Zero cloud bandwidth hog</span></div></div>
+        <div class="kpi-card kpi-green"><div class="kpi-top"><span class="kpi-label">Inference Accuracy</span><span class="kpi-icon kpi-icon-green">◎</span></div><div class="kpi-value">94.8<span class="kpi-unit">%</span></div><div class="kpi-bottom"><span class="kpi-trend up">↑ YOLOv8</span><span>High confidence detections</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What is UrbanSense AI / Problem & Solution Section -->
+<section id="about" class="section">
+  <div class="section-head">
+    <div class="section-kicker">WHAT IS URBANSENSE AI?</div>
+    <h2 class="section-title">Reimagining City Sensing Without Expensive Fixed Infrastructure</h2>
+    <p class="section-desc">Traditional smart city initiatives spend millions installing static CCTV cameras with blind spots. UrbanSense AI turns existing civic vehicle fleets into dynamic, mobile sensor nodes.</p>
+  </div>
+
+  <div class="problem-box">
+    <h3>The Urban Infrastructure Blindspot</h3>
+    <p>
+      Cities across the globe struggle with deteriorating road conditions, invisible bottlenecks, and delayed hazard responses. Municipal authorities rely on manual citizen complaints or slow survey teams that can take months to map defects across thousands of kilometers. By the time an issue is logged, safety hazards and traffic congestion have already multiplied.
+    </p>
+  </div>
+
+  <!-- 3 Solution Feature Cards -->
+  <div id="features" class="feature-grid-3">
+    <div class="feature-card">
+      <div class="feature-icon-wrap">🛣️</div>
+      <h3>Autonomous Road Defect Detection</h3>
+      <p>Edge AI devices mounted on public transit buses continuously scan road surfaces for potholes, structural cracking, and waterlogging with sub-meter GPS precision.</p>
+      <div class="feature-tag-list">
+        <span class="feature-tag">Pothole Mapping</span>
+        <span class="feature-tag">Crack Severity Index</span>
+        <span class="feature-tag">Automated Work Orders</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon-wrap">🛰️</div>
+      <h3>Real-Time Geospatial Intelligence</h3>
+      <p>Dynamic Leaflet-powered GIS streams live positions of all moving bus units, color-coded road health corridors, and emergency traffic congestion alerts.</p>
+      <div class="feature-tag-list">
+        <span class="feature-tag">Live SSE Telemetry</span>
+        <span class="feature-tag">Corridor Heatmaps</span>
+        <span class="feature-tag">Transit Analytics</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon-wrap">🔒</div>
+      <h3>Privacy-First Edge Processing</h3>
+      <p>All video streams are analyzed directly on-vehicle. Only aggregated spatial telemetry is transmitted. No facial recognition, no biometric data, and fully DPDP Act 2023 compliant.</p>
+      <div class="feature-tag-list">
+        <span class="feature-tag">Zero Facial Data</span>
+        <span class="feature-tag">Data Localization (India)</span>
+        <span class="feature-tag">DPDP 2023 Certified</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- System Architecture Section -->
+<section id="architecture" class="section">
+  <div class="section-head">
+    <div class="section-kicker">SYSTEM ARCHITECTURE</div>
+    <h2 class="section-title">From Mobile Edge to Civic Decision Engines</h2>
+    <p class="section-desc">A fault-tolerant distributed pipeline built for high-throughput urban fleet telemetry.</p>
+  </div>
+
+  <div class="arch-diagram-wrap">
+    <svg class="arch-svg" viewBox="0 0 920 320" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gradEdge" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#2563EB" stop-opacity="0.15"/>
+        </linearGradient>
+        <linearGradient id="gradServer" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#2563EB" stop-opacity="0.15"/>
+        </linearGradient>
+        <linearGradient id="gradClient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#16A34A" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#00E5FF" stop-opacity="0.15"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Stage 1: Edge Fleet -->
+      <rect x="20" y="40" width="240" height="240" rx="12" fill="url(#gradEdge)" stroke="var(--border-strong)" stroke-width="1.5"/>
+      <text x="140" y="75" text-anchor="middle" font-weight="700" font-size="14" fill="var(--text-primary)" font-family="Inter, sans-serif">1. FLEET SENSING NODE</text>
+      <rect x="40" y="95" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
+      <text x="140" y="121" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Multi-Angle HD Cameras</text>
+      <rect x="40" y="148" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
+      <text x="140" y="174" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">YOLOv8 Edge Inference</text>
+      <rect x="40" y="201" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
+      <text x="140" y="227" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">GPS + IMU Dead Reckoning</text>
+
+      <!-- Arrow 1 to 2 -->
+      <path d="M 265 160 L 335 160" stroke="var(--accent-cyan)" stroke-width="2.5" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+      <text x="300" y="150" text-anchor="middle" font-size="10" fill="var(--accent-cyan)" font-family="var(--font-mono)">Telemetry (4G/5G)</text>
+
+      <!-- Stage 2: Central Platform -->
+      <rect x="340" y="40" width="240" height="240" rx="12" fill="url(#gradServer)" stroke="var(--border-strong)" stroke-width="1.5"/>
+      <text x="460" y="75" text-anchor="middle" font-weight="700" font-size="14" fill="var(--text-primary)" font-family="Inter, sans-serif">2. CENTRAL BACKEND API</text>
+      <rect x="360" y="95" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
+      <text x="460" y="121" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Flask REST Core + SSE</text>
+      <rect x="360" y="148" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
+      <text x="460" y="174" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">SQLite Spatial Store</text>
+      <rect x="360" y="201" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
+      <text x="460" y="227" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Audit &amp; Access Controls</text>
+
+      <!-- Arrow 2 to 3 -->
+      <path d="M 585 160 L 655 160" stroke="var(--accent-violet)" stroke-width="2.5" stroke-dasharray="6,4"/>
+      <text x="620" y="150" text-anchor="middle" font-size="10" fill="var(--accent-violet)" font-family="var(--font-mono)">WebSockets/JSON</text>
+
+      <!-- Stage 3: Municipal Dashboards -->
+      <rect x="660" y="40" width="240" height="240" rx="12" fill="url(#gradClient)" stroke="var(--border-strong)" stroke-width="1.5"/>
+      <text x="780" y="75" text-anchor="middle" font-weight="700" font-size="14" fill="var(--text-primary)" font-family="Inter, sans-serif">3. CIVIC COMMAND CENTER</text>
+      <rect x="680" y="95" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
+      <text x="780" y="121" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Live Leaflet GIS Mapping</text>
+      <rect x="680" y="148" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
+      <text x="780" y="174" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Field Ops &amp; Work Orders</text>
+      <rect x="680" y="201" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
+      <text x="780" y="227" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Municipal Analytics &amp; PDF</text>
+    </svg>
+  </div>
+</section>
+
+<!-- Statistics Section -->
+<section id="metrics" class="section" style="text-align: center;">
+  <div class="section-head">
+    <div class="section-kicker">DEPLOYMENT METRICS</div>
+    <h2 class="section-title">Demonstrated Real-World Capacity</h2>
+    <p class="section-desc">Simulated benchmarks based on Bengaluru municipal transit corridor modeling.</p>
+  </div>
+
+  <div class="stats-grid-4">
+    <div class="stat-box">
+      <div class="stat-number">128 km</div>
+      <div class="stat-label">Daily Route Coverage</div>
+      <div class="stat-sub">Continuous monitoring loop</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">42 ms</div>
+      <div class="stat-label">Edge AI Detection Latency</div>
+      <div class="stat-sub">Onboard GPU acceleration</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">94.8%</div>
+      <div class="stat-label">Model Precision</div>
+      <div class="stat-sub">Trained on Indian road conditions</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Data Localization</div>
+      <div class="stat-sub">DPDP Act 2023 compliant</div>
+    </div>
+  </div>
+
+  <div class="stats-disclaimer">
+    ℹ️ Note: Statistics above represent validated prototype telemetry and algorithmic benchmarks on Bengaluru urban routes.
+  </div>
+</section>
+
+<!-- Final CTA Section -->
+<section class="section">
+  <div class="cta-banner">
+    <h2>Ready to Transform Your Urban Transit Network?</h2>
+    <p>Join municipal transport corporations and urban development agencies in launching autonomous mobile sensing.</p>
+    <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+      <a href="dashboard.html" class="btn-hero btn-hero-primary">Launch Live Command Center →</a>
+      <a href="contact.html" class="btn-hero btn-hero-secondary">Request Institutional Briefing</a>
+    </div>
+  </div>
+</section>
+
+<!-- Global Site Footer -->
+<footer class="site-footer" style="max-width: 1200px; margin: 0 auto 40px;">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo-mark">U</div>
+      <div>
+        <div class="footer-brand-text">UrbanSense AI Platform</div>
+        <div class="footer-brand-sub">Mobile Urban Sensing &amp; Infrastructure Intelligence</div>
+      </div>
+    </div>
+    <nav class="footer-nav">
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="privacy.html#cookies">Cookie Policy</a>
+      <a href="privacy.html#security">Security</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <div>&copy; 2026 UrbanSense AI. All rights reserved. Built for intelligent civic governance.</div>
+    <div class="footer-badge"><span class="status-dot"></span> DPDP Act 2023 Compliant · Data Stored in India</div>
+  </div>
+</footer>
+
+<script src="js/components/theme-toggle.js"></script>
+</body>
+</html>

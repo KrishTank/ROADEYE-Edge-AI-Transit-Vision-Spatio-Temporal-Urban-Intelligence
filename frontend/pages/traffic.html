@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Zero-flash theme initialization -->
+<script>
+(function(){
+  var s = localStorage.getItem('urbansense_theme');
+  var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traffic Analytics | UrbanSense AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/themes.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<style>
+.traffic-main-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(320px, 1fr); gap: 20px; margin-bottom: 20px; }
+.traffic-lower-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; }
+.chart-container { position: relative; height: 340px; padding: 12px 16px 16px; }
+#trafficChart { width: 100%; height: 100%; display: block; }
+.range-buttons { display: flex; gap: 4px; background: var(--bg-elevated); padding: 3px; border-radius: var(--radius-md); }
+.range-btn { padding: 5px 12px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 600; color: var(--text-muted); font-family: var(--font-mono); transition: all var(--transition-fast); background: none; border: none; cursor: pointer; }
+.range-btn:hover { color: var(--text-primary); }
+.range-btn.active { background: var(--bg-panel); color: var(--accent-cyan); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.zones-container { padding: 8px 18px 18px; }
+.zone-item { margin-bottom: 16px; cursor: pointer; padding: 4px 8px; border-radius: var(--radius-sm); transition: background var(--transition-fast); }
+.zone-item:hover { background: var(--bg-elevated); }
+.zone-item:last-child { margin-bottom: 0; }
+.zone-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 10px; }
+.zone-name { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+.zone-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.zone-percent { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--text-primary); }
+.zone-track { height: 6px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; }
+.zone-fill { height: 100%; border-radius: 10px; transition: width 600ms ease; }
+.zone-meta { display: flex; justify-content: space-between; margin-top: 5px; font-size: 10px; font-family: var(--font-mono); color: var(--text-dim); }
+.ai-feed { padding: 4px 18px 16px; }
+.ai-event { display: grid; grid-template-columns: 36px 1fr auto; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border-subtle); align-items: flex-start; }
+.ai-event:last-child { border-bottom: none; }
+.ai-event-icon { width: 36px; height: 36px; border-radius: var(--radius-md); display: grid; place-items: center; font-size: 15px; flex-shrink: 0; }
+.ai-event-icon.red { background: rgba(255, 59, 71, 0.12); color: var(--accent-red); }
+.ai-event-icon.amber { background: rgba(255, 179, 0, 0.12); color: var(--accent-amber); }
+.ai-event-icon.blue { background: rgba(0, 229, 255, 0.12); color: var(--accent-cyan); }
+.ai-event-icon.green { background: rgba(0, 230, 138, 0.12); color: var(--accent-green); }
+.ai-event-content { min-width: 0; }
+.ai-event-title { font-size: 12px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+.ai-event-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; margin-bottom: 5px; }
+.ai-event-time { font-size: 10px; font-family: var(--font-mono); color: var(--text-dim); }
+.vehicle-breakdown { padding: 8px 18px 18px; }
+.vehicle-row { margin-bottom: 14px; }
+.vehicle-row:last-child { margin-bottom: 0; }
+.vehicle-row-top { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; }
+.vehicle-label { color: var(--text-secondary); }
+.vehicle-value { color: var(--text-primary); font-family: var(--font-mono); font-weight: 500; }
+.vehicle-track { height: 6px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; }
+.vehicle-fill { height: 100%; border-radius: 10px; transition: width 600ms ease; }
+.traffic-status-box { margin: 0 18px 16px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px; }
+.traffic-status-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.traffic-status-label { font-size: 10px; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+.traffic-status-value { font-size: 20px; font-weight: 600; color: var(--text-primary); font-family: var(--font-mono); }
+.status-pill { padding: 4px 10px; border-radius: var(--radius-sm); font-size: 10px; font-weight: 700; font-family: var(--font-mono); letter-spacing: 0.6px; background: rgba(0, 230, 138, 0.12); color: var(--accent-green); border: 1px solid rgba(0, 230, 138, 0.3); white-space: nowrap; }
+.status-pill.warn { background: rgba(255, 179, 0, 0.12); color: var(--accent-amber); border-color: rgba(255, 179, 0, 0.3); }
+.status-pill.crit { background: rgba(255, 59, 71, 0.12); color: var(--accent-red); border-color: rgba(255, 59, 71, 0.3); }
+.traffic-status-message { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+.mini-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 18px 18px; }
+.mini-metric { background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px 12px; }
+.mini-label { font-size: 9px; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+.mini-value { font-size: 15px; font-weight: 600; color: var(--text-primary); font-family: var(--font-mono); }
+@media (max-width: 1100px) { .traffic-main-grid, .traffic-lower-grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .mini-metrics { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">U</div>
+      <div>
+        <div class="logo-title">UrbanSense</div>
+        <div class="logo-subtitle">AI COMMAND</div>
+      </div>
+    </div>
+       <nav class="nav-menu">
+      <div class="nav-group-label">MONITOR</div>
+      <a href="../dashboard.html"       class="nav-item"><span>◈</span><span>Dashboard</span></a>
+      <a href="gis.html"         class="nav-item"><span>◎</span><span>Live GIS Map</span></a>
+      <a href="scanner.html"     class="nav-item"><span>◉</span><span>AI Detection</span></a>
+      <a href="vehicle-intel.html" class="nav-item"><span>🚗</span><span>Vehicle Intel</span><span class="badge-new">NEW</span></a>
+
+      <div class="nav-group-label">INTELLIGENCE</div>
+      <a href="ocr.html"         class="nav-item"><span>🔢</span><span>Number Plate</span><span class="badge-new">NEW</span></a>
+      <a href="road-health.html" class="nav-item"><span>🛣️</span><span>Road Infrastructure</span></a>
+      <a href="incidents.html"   class="nav-item"><span>⚠</span><span>Incidents</span></a>
+      <a href="traffic.html"     class="nav-item"><span>⇄</span><span>Traffic Analytics</span></a>
+
+      <div class="nav-group-label">OPERATIONS</div>
+      <a href="fleet.html"       class="nav-item"><span>▣</span><span>Fleet &amp; Routes</span></a>
+      <a href="reports.html"     class="nav-item"><span>▤</span><span>Analytics &amp; Reports</span></a>
+      <a href="government.html"  class="nav-item"><span>🏛️</span><span>Government Action</span><span class="badge-new">NEW</span></a>
+      <a href="field-ops.html"   class="nav-item"><span>👷</span><span>Field Operations</span><span class="badge-new">NEW</span></a>
+
+      <button class="nav-item" id="chatbotBtn" style="color:var(--accent-cyan);">
+        <span>💬</span><span>AI Assistant</span>
+      </button>
+
+      <button class="nav-item" id="resetDemoBtn" style="width:100%; margin-top:12px; color:var(--accent-red);">
+        <span>⟲</span><span>Reset Demo</span>
+      </button>
+    </nav>
+    <div class="sidebar-status">
+      <strong><span class="status-dot"></span> System Online</strong>
+      <small>Frontend simulation</small>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <header class="page-header">
+      <div>
+        <div class="page-kicker">URBANSENSE AI · TRAFFIC OPERATIONS</div>
+        <h1>Traffic Analytics</h1>
+        <p>Fleet cameras transformed into city-wide traffic intelligence</p>
+      </div>
+      <div class="page-actions">
+        <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <span class="theme-toggle-icon">☀️</span>
+          <span class="theme-toggle-label">Theme</span>
+        </button>
+        <div class="live-badge"><span class="status-dot"></span>LIVE</div>
+        <div class="live-clock" id="liveClock">00:00:00</div>
+      </div>
+    </header>
+
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-top"><span class="kpi-label">Vehicles Detected</span><span class="kpi-icon">🚗</span></div>
+        <div class="kpi-value" id="vehiclesDetected">0</div>
+        <div class="kpi-bottom"><span class="kpi-trend up">↑ 12.4%</span><span>vs yesterday</span></div>
+      </div>
+      <div class="kpi-card kpi-amber">
+        <div class="kpi-top"><span class="kpi-label">Congested Zones</span><span class="kpi-icon kpi-icon-amber">⇄</span></div>
+        <div class="kpi-value" id="congestedZones">0</div>
+        <div class="kpi-bottom"><span id="criticalZones">0 critical</span></div>
+      </div>
+      <div class="kpi-card kpi-red">
+        <div class="kpi-top"><span class="kpi-label">Average Delay</span><span class="kpi-icon kpi-icon-red">◷</span></div>
+        <div class="kpi-value" id="averageDelay">0<span class="kpi-unit">m</span></div>
+        <div class="kpi-bottom"><span class="kpi-trend down">↓ 2.1%</span><span>vs yesterday</span></div>
+      </div>
+      <div class="kpi-card kpi-green">
+        <div class="kpi-top"><span class="kpi-label">Traffic Flow</span><span class="kpi-icon kpi-icon-green">⚡</span></div>
+        <div class="kpi-value" id="trafficFlow">0<span class="kpi-unit">%</span></div>
+        <div class="kpi-bottom"><span id="flowStatus">Normal</span></div>
+      </div>
+    </section>
+
+    <section class="traffic-main-grid">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><h2>Vehicle Flow</h2><p>Hourly detection from fleet cameras</p></div>
+          <div class="range-buttons">
+            <button class="range-btn" data-range="6">6H</button>
+            <button class="range-btn active" data-range="12">12H</button>
+            <button class="range-btn" data-range="24">24H</button>
+          </div>
+        </div>
+        <div class="chart-container"><canvas id="trafficChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><h2>Zone Congestion</h2><p>Current traffic intensity</p></div>
+        </div>
+        <div class="zones-container" id="zonesContainer"></div>
+      </div>
+    </section>
+
+    <section class="traffic-lower-grid">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><h2>Traffic Intelligence</h2><p>AI observations from fleet cameras</p></div>
+        </div>
+        <div class="ai-feed" id="aiFeed"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><h2>Vehicle Classification</h2><p>Detected by fleet cameras</p></div>
+        </div>
+        <div class="vehicle-breakdown" id="vehicleBreakdown"></div>
+        <div class="traffic-status-box">
+          <div class="traffic-status-top">
+            <div>
+              <div class="traffic-status-label">Overall Status</div>
+              <div class="traffic-status-value" id="overallStatus">Moderate</div>
+            </div>
+            <span class="status-pill" id="statusPill">NORMAL</span>
+          </div>
+          <div class="traffic-status-message" id="statusMessage">Traffic network operating within expected capacity. AI monitoring remains active.</div>
+        </div>
+        <div class="mini-metrics">
+          <div class="mini-metric"><div class="mini-label">Peak Hour</div><div class="mini-value" id="peakHour">18:00</div></div>
+          <div class="mini-metric"><div class="mini-label">Avg Speed</div><div class="mini-value" id="avgSpeed">0 km/h</div></div>
+          <div class="mini-metric"><div class="mini-label">Cameras</div><div class="mini-value" id="camerasOnline">0</div></div>
+        </div>
+      </div>
+    </section>
+
+      <!-- Platform Footer -->
+    <footer class="site-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-mark">U</div>
+          <div>
+            <div class="footer-brand-text">UrbanSense AI Platform</div>
+            <div class="footer-brand-sub">Mobile Urban Sensing &amp; Infrastructure Intelligence</div>
+          </div>
+        </div>
+        <nav class="footer-nav">
+          <a href="../terms.html">Terms of Service</a>
+          <a href="../privacy.html">Privacy Policy</a>
+          <a href="../privacy.html#cookies">Cookie Policy</a>
+          <a href="../privacy.html#security">Security</a>
+          <a href="../contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 UrbanSense AI. All rights reserved. Built for intelligent civic governance.</div>
+        <div class="footer-badge"><span class="status-dot"></span> DPDP Act 2023 Compliant · Data Stored in India</div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script src="../js/core/app.js"></script>
+<script src="../js/pages/traffic.js"></script>
+<script src="../js/pages/demo-mode.js"></script>
+<script src="../js/components/theme-toggle.js"></script>
+</body>
+</html>

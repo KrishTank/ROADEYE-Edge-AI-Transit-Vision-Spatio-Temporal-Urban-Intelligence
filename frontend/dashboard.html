@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Command Center | UrbanSense AI</title>
+<!-- Zero-flash theme initialization -->
+<script>
+(function(){
+  var s = localStorage.getItem('urbansense_theme');
+  var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/shell.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo"><div class="logo-mark">U</div><div><div class="logo-title">UrbanSense</div><div class="logo-subtitle">AI COMMAND</div></div></div>
+    <nav class="nav-menu">
+      <div class="nav-group-label">MONITOR</div>
+      <a href="dashboard.html"   class="nav-item active"><span>◈</span><span>Dashboard</span></a>
+      <a href="pages/gis.html"         class="nav-item"><span>◎</span><span>Live GIS Map</span></a>
+      <a href="pages/scanner.html"     class="nav-item"><span>◉</span><span>AI Detection</span></a>
+      <a href="pages/vehicle-intel.html" class="nav-item"><span>🚗</span><span>Vehicle Intel</span><span class="badge-new">NEW</span></a>
+      <div class="nav-group-label">INTELLIGENCE</div>
+      <a href="pages/ocr.html"         class="nav-item"><span>🔢</span><span>Number Plate</span><span class="badge-new">NEW</span></a>
+      <a href="pages/road-health.html" class="nav-item"><span>🛣️</span><span>Road Infrastructure</span></a>
+      <a href="pages/incidents.html"   class="nav-item"><span>⚠</span><span>Incidents</span></a>
+      <a href="pages/traffic.html"     class="nav-item"><span>⇄</span><span>Traffic Analytics</span></a>
+      <div class="nav-group-label">OPERATIONS</div>
+      <a href="pages/fleet.html"       class="nav-item"><span>▣</span><span>Fleet &amp; Routes</span></a>
+      <a href="pages/reports.html"     class="nav-item"><span>▤</span><span>Analytics &amp; Reports</span></a>
+      <a href="pages/government.html"  class="nav-item"><span>🏛️</span><span>Government Action</span><span class="badge-new">NEW</span></a>
+      <a href="pages/field-ops.html"   class="nav-item"><span>👷</span><span>Field Operations</span><span class="badge-new">NEW</span></a>
+      <button class="nav-item" id="chatbotBtn" style="color:var(--accent-cyan);"><span>💬</span><span>AI Assistant</span></button>
+      <button class="nav-item" id="resetDemoBtn" style="width:100%; margin-top:12px; color:var(--accent-red);"><span>⟲</span><span>Reset Demo</span></button>
+    </nav>
+    <div class="sidebar-status"><strong><span class="status-dot"></span> System Online</strong><small>Frontend simulation</small></div>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div>
+        <div class="page-kicker">URBANSENSE AI · CITY OPERATIONS</div>
+        <h1>Command Center</h1>
+        <p>Fleet-wide intelligence from mobile urban sensing units</p>
+      </div>
+      <div class="page-actions">
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme" aria-label="Toggle Light/Dark Theme">
+          <span class="theme-toggle-icon">☀️</span>
+          <span class="theme-toggle-label">Theme</span>
+        </button>
+        <div class="live-badge"><span class="status-dot"></span>LIVE</div>
+        <div class="live-clock" id="liveClock">00:00:00</div>
+        <button class="btn btn-primary" id="refreshDashboard">⟳ Refresh</button>
+      </div>
+    </header>
+
+    <section class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-top"><span class="kpi-label">Active Fleet</span><span class="kpi-icon">▣</span></div><div class="kpi-value" id="activeFleet">0</div><div class="kpi-bottom"><span class="kpi-trend up">↑ 4.2%</span><span id="fleetSub">0 / 0 buses</span></div></div>
+      <div class="kpi-card kpi-red"><div class="kpi-top"><span class="kpi-label">Active Incidents</span><span class="kpi-icon kpi-icon-red">⚠</span></div><div class="kpi-value" id="activeIncidents">0</div><div class="kpi-bottom"><span class="kpi-trend down">↑ 8.1%</span><span id="incidentSub">0 critical</span></div></div>
+      <div class="kpi-card kpi-amber"><div class="kpi-top"><span class="kpi-label">Road Defects</span><span class="kpi-icon kpi-icon-amber">▲</span></div><div class="kpi-value" id="roadDefects">0</div><div class="kpi-bottom"><span class="kpi-trend flat">— 0.0%</span><span id="defectSub">Detected anomalies</span></div></div>
+      <div class="kpi-card kpi-green"><div class="kpi-top"><span class="kpi-label">Detection Confidence</span><span class="kpi-icon kpi-icon-green">◎</span></div><div class="kpi-value" id="avgConfidence">0<span class="kpi-unit">%</span></div><div class="kpi-bottom"><span class="kpi-trend up">↑ 1.4%</span><span>Average AI confidence</span></div></div>
+    </section>
+
+    <section class="grid-2">
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title"><h2>Urban Intelligence Map</h2><p>Live fleet positions and detected urban events</p></div><a href="pages/gis.html" class="panel-link">Open Full GIS →</a></div>
+        <div class="panel-body">
+          <div class="mini-map" id="miniMap">
+            <svg class="mini-map-svg" viewBox="0 0 400 300" preserveAspectRatio="none">
+              <path d="M-10,150 Q80,120 180,145 T410,135" stroke="#1E2A3F" stroke-width="6" fill="none" stroke-linecap="round"/>
+              <path d="M180,145 Q200,80 220,20" stroke="#1E2A3F" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <path d="M180,145 Q190,220 205,300" stroke="#1E2A3F" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <path d="M40,250 Q120,200 180,145 T360,240" stroke="#1E2A3F" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <text x="60" y="80" class="mini-map-svg-label">CENTRAL ZONE</text>
+              <text x="290" y="130" class="mini-map-svg-label">RING ROAD</text>
+            </svg>
+            <div class="mini-map-grid"></div>
+            <div id="miniMapMarkers"></div>
+            <div class="mini-map-legend"><span><span class="severity-dot low"></span> Fleet</span><span><span class="severity-dot critical"></span> Event</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title"><h2>Live Detection Feed</h2><p>Latest AI detections from fleet cameras</p></div><a href="pages/incidents.html" class="panel-link">View All →</a></div>
+        <div class="panel-body" style="padding:0;"><div id="liveFeed"></div></div>
+      </div>
+    </section>
+
+    <section class="grid-3">
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title"><h2>Fleet Health</h2><p>Vehicle connectivity</p></div></div>
+        <div class="panel-body">
+          <div class="progress-row"><span>Active vehicles</span><strong id="fhActive">0 / 0</strong></div>
+          <div class="progress-track"><div class="progress-fill" id="fhActiveBar" style="width:0%;"></div></div>
+          <div class="progress-row"><span>GPS connectivity</span><strong>98%</strong></div>
+          <div class="progress-track"><div class="progress-fill green" style="width:98%;"></div></div>
+          <div class="progress-row"><span>Camera availability</span><strong>96%</strong></div>
+          <div class="progress-track"><div class="progress-fill amber" style="width:96%;"></div></div>
+          <div class="progress-row"><span>Avg. speed</span><strong id="fhSpeed">0 km/h</strong></div>
+          <div class="progress-track"><div class="progress-fill violet" id="fhSpeedBar" style="width:0%;"></div></div>
+        </div>
+      </div>
+      <div class="panel"><div class="panel-head"><div class="panel-title"><h2>Detection Analytics</h2><p>Event distribution</p></div></div><div class="panel-body" id="detectionAnalytics"></div></div>
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title"><h2>System Status</h2><p>Platform health</p></div></div>
+        <div class="panel-body">
+          <div class="stat-row"><span class="label">AI Detection Engine</span><span class="value text-green">READY</span></div>
+          <div class="stat-row"><span class="label">GIS Layer</span><span class="value text-green">ACTIVE</span></div>
+          <div class="stat-row"><span class="label">Fleet Uplink</span><span class="value text-green">CONNECTED</span></div>
+          <div class="stat-row"><span class="label">Edge Inference</span><span class="value">42 ms</span></div>
+          <div class="stat-row"><span class="label">Model version</span><span class="value">v2.4.1</span></div>
+          <div class="stat-row"><span class="label">Uptime</span><span class="value">99.8%</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div class="panel-title"><h2>Quick Actions</h2><p>Jump to key workflows</p></div></div>
+      <div class="panel-body">
+        <div class="grid-4" style="margin-bottom:0;">
+          <a href="pages/scanner.html"    class="btn" style="justify-content:center;">◉ Scan New Frame</a>
+          <a href="pages/gis.html"        class="btn" style="justify-content:center;">◎ Open GIS</a>
+          <a href="pages/incidents.html"  class="btn" style="justify-content:center;">⚠ Incident Center</a>
+          <a href="pages/field-ops.html"  class="btn" style="justify-content:center;">👷 Field Operations</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platform Footer -->
+    <footer class="site-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-mark">U</div>
+          <div>
+            <div class="footer-brand-text">UrbanSense AI Platform</div>
+            <div class="footer-brand-sub">Mobile Urban Sensing &amp; Infrastructure Intelligence</div>
+          </div>
+        </div>
+        <nav class="footer-nav">
+          <a href="terms.html">Terms of Service</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="privacy.html#cookies">Cookie Policy</a>
+          <a href="privacy.html#security">Security</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 UrbanSense AI. All rights reserved. Built for intelligent civic governance.</div>
+        <div class="footer-badge"><span class="status-dot"></span> DPDP Act 2023 Compliant · Data Stored in India</div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script src="js/core/app.js"></script>
+<script src="js/core/api.js"></script>
+<script src="js/core/api-bridge.js"></script>
+<script src="js/core/realtime.js"></script>
+<script src="js/components/theme-toggle.js"></script>
+<script src="js/components/right-panel.js"></script>
+<script src="js/components/chatbot.js"></script>
+<script src="js/components/sim-controls.js"></script>
+<script src="js/pages/dashboard.js"></script>
+<script src="js/pages/demo-mode.js"></script>
+</body>
+</html>
