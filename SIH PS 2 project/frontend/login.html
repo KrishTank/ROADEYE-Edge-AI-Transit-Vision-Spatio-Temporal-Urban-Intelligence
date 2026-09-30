@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operational Role Authentication | ROADEYE Command Center</title>
+<meta name="description" content="Secure access to the ROADEYE Urban Intelligence Command Center. Select operational role and access live telemetry.">
+<script>
+(function(){
+  localStorage.setItem('roadeye_theme', 'light');
+  document.documentElement.setAttribute('data-theme', 'light');
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+
+<style>
+:root {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --roadeye-blue: #0284C7;
+  --roadeye-navy: #0F172A;
+  --roadeye-cyan: #06B6D4;
+  --roadeye-light-bg: #F8FAFC;
+  --roadeye-border: #E2E8F0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background-color: #F8FAFC;
+  color: var(--roadeye-navy);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+.auth-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 36px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.auth-logo-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0284C7, #06B6D4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 18px;
+}
+
+.auth-logo-text {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.02em;
+}
+
+.auth-logo-sub {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #0284C7;
+  text-transform: uppercase;
+}
+
+.auth-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-nav-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748B;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.auth-nav-link:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+/* Central Authentication Container */
+.auth-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: radial-gradient(circle at 50% 20%, #E0F2FE 0%, #F8FAFC 60%, #FFFFFF 100%);
+}
+
+.auth-card {
+  max-width: 680px;
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  padding: 40px 44px;
+  box-shadow: 0 20px 45px -10px rgba(2, 132, 199, 0.12), 0 4px 16px rgba(15, 23, 42, 0.04);
+  animation: cardFadeIn 0.35s ease-out;
+}
+
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.auth-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: #F0F9FF;
+  border: 1px solid #BAE6FD;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #0369A1;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+}
+
+.auth-main-heading {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.auth-sub-heading {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Role Selector Grid */
+.role-section-label {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.role-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.role-card:hover {
+  background: #FFFFFF;
+  border-color: #0284C7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
+}
+
+.role-card.selected {
+  background: #F0F9FF;
+  border: 2px solid #0284C7;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.15);
+}
+
+.role-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.role-info {
+  flex: 1;
+}
+
+.role-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 3px;
+}
+
+.role-card.selected .role-title {
+  color: #0284C7;
+}
+
+.role-desc {
+  font-size: 11px;
+  color: #64748B;
+  line-height: 1.4;
+}
+
+/* Passcode Form */
+.passcode-form {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 28px;
+}
+
+.form-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #0F172A;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.demo-access-tag {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.input-wrap {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.form-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: var(--font-mono);
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  color: #0F172A;
+  transition: all 0.15s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #0284C7;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+.input-hint-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #64748B;
+  margin-bottom: 18px;
+}
+
+.demo-passcode-click {
+  color: #0284C7;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-access-roadeye {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-access-roadeye:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
+}
+
+/* Quick Demo Access */
+.quick-demo-section {
+  border-top: 1px solid #E2E8F0;
+  padding-top: 24px;
+  text-align: center;
+}
+
+.quick-demo-title {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #475569;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.quick-buttons-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.btn-quick-demo {
+  padding: 10px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-quick-demo:hover {
+  background: #F0F9FF;
+  border-color: #0284C7;
+  color: #0284C7;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.12);
+}
+
+/* Auth Message Alert */
+.auth-alert {
+  display: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-bottom: 16px;
+  align-items: center;
+  gap: 8px;
+}
+
+.auth-alert.error {
+  display: flex;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #991B1B;
+}
+
+.auth-alert.success {
+  display: flex;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  color: #065F46;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .auth-nav { padding: 12px 20px; }
+  .auth-card { padding: 28px 20px; }
+  .roles-grid { grid-template-columns: 1fr; }
+  .quick-buttons-row { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="auth-nav">
+    <a href="index.html" class="auth-logo">
+      <div class="auth-logo-icon">🔐</div>
+      <div>
+        <div class="auth-logo-text">ROADEYE</div>
+        <div class="auth-logo-sub">STAGE 3: SECURE AUTHENTICATION</div>
+      </div>
+    </a>
+
+    <div class="auth-nav-links">
+      <a href="welcome.html" class="auth-nav-link">← Product Overview</a>
+      <a href="index.html" class="auth-nav-link">Landing Page</a>
+    </div>
+  </header>
+
+  <!-- Central Authentication Card -->
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      
+      <div class="auth-header">
+        <div class="auth-pill-badge">
+          <span>🛡️</span>
+          <span>Access Verification</span>
+        </div>
+        <h1 class="auth-main-heading">OPERATIONAL ROLE AUTHENTICATION</h1>
+        <p class="auth-sub-heading">Secure access to the ROADEYE Urban Intelligence Command Center</p>
+      </div>
+
+      <!-- Alert box -->
+      <div class="auth-alert" id="authAlert"></div>
+
+      <!-- Roles Selection -->
+      <div class="role-section-label">
+        <span>Select Operational Role</span>
+        <span style="font-weight:400; color:#64748B;">Role determines workspace controls</span>
+      </div>
+
+      <div class="roles-grid" id="rolesGrid">
+        <!-- 1. Admin -->
+        <div class="role-card" data-role="Admin">
+          <span class="role-icon">👤</span>
+          <div class="role-info">
+            <div class="role-title">Admin</div>
+            <div class="role-desc">Full platform control &amp; system management</div>
+          </div>
+        </div>
+
+        <!-- 2. Traffic Authority -->
+        <div class="role-card" data-role="Traffic Authority">
+          <span class="role-icon">🚦</span>
+          <div class="role-info">
+            <div class="role-title">Traffic Authority</div>
+            <div class="role-desc">Traffic monitoring &amp; incident management</div>
+          </div>
+        </div>
+
+        <!-- 3. Municipal Authority -->
+        <div class="role-card" data-role="Municipal Authority">
+          <span class="role-icon">🏙️</span>
+          <div class="role-info">
+            <div class="role-title">Municipal Authority</div>
+            <div class="role-desc">Road infrastructure &amp; maintenance</div>
+          </div>
+        </div>
+
+        <!-- 4. Transport Authority (Default Selected) -->
+        <div class="role-card selected" data-role="Transport Authority">
+          <span class="role-icon">🚌</span>
+          <div class="role-info">
+            <div class="role-title">Transport Authority</div>
+            <div class="role-desc">Fleet, buses &amp; route operations</div>
+          </div>
+        </div>
+
+        <!-- 5. Field Staff (Spanning Full Width in 2-col) -->
+        <div class="role-card" data-role="Field Staff" style="grid-column: span 2;">
+          <span class="role-icon">👷</span>
+          <div class="role-info">
+            <div class="role-title">Field Staff</div>
+            <div class="role-desc">Assigned maintenance &amp; field operations</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Passcode Input Form -->
+      <form class="passcode-form" id="authForm">
+        <div class="form-label-row">
+          <label class="form-label" for="passcodeInput">PASSCODE</label>
+          <span class="demo-access-tag">DEMO ACCESS ONLY</span>
+        </div>
+
+        <div class="input-wrap">
+          <input 
+            type="password" 
+            id="passcodeInput" 
+            class="form-input" 
+            placeholder="Enter universal passcode"
+            autocomplete="current-password"
+            value="roadeye2026"
+          />
+        </div>
+
+        <div class="input-hint-row">
+          <span>Universal demo passcode: <span class="demo-passcode-click" id="fillPasscode">roadeye2026</span></span>
+          <span>Role-based encryption active</span>
+        </div>
+
+        <button type="submit" class="btn-access-roadeye" id="btnAccessRoadeye">
+          <span>→ Access ROADEYE</span>
+        </button>
+      </form>
+
+      <!-- Quick Demo Access Section -->
+      <div class="quick-demo-section">
+        <div class="quick-demo-title">QUICK DEMO ACCESS</div>
+        <div class="quick-buttons-row">
+          <button class="btn-quick-demo" data-quick="Admin">👤 Admin</button>
+          <button class="btn-quick-demo" data-quick="Traffic Authority">🚦 Traffic</button>
+          <button class="btn-quick-demo" data-quick="Municipal Authority">🏙️ Municipal</button>
+          <button class="btn-quick-demo" data-quick="Transport Authority">🚌 Transport</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+  (function(){
+    let selectedRole = "Transport Authority";
+    const UNIVERSAL_PASSCODE = "roadeye2026";
+
+    const roleCards = document.querySelectorAll('.role-card');
+    const authForm = document.getElementById('authForm');
+    const passcodeInput = document.getElementById('passcodeInput');
+    const fillPasscode = document.getElementById('fillPasscode');
+    const authAlert = document.getElementById('authAlert');
+    const quickBtns = document.querySelectorAll('.btn-quick-demo');
+
+    // Role selection
+    roleCards.forEach(card => {
+      card.addEventListener('click', () => {
+        roleCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedRole = card.dataset.role;
+      });
+    });
+
+    // Helper to auto-fill passcode
+    if (fillPasscode) {
+      fillPasscode.addEventListener('click', () => {
+        passcodeInput.value = UNIVERSAL_PASSCODE;
+        passcodeInput.focus();
+      });
+    }
+
+    // Direct Login function
+    function grantAccess(role) {
+      localStorage.setItem('roadeye_auth', 'true');
+      localStorage.setItem('roadeye_role', role);
+      localStorage.setItem('urbansense_auth', 'true');
+      localStorage.setItem('urbansense_role', role);
+
+      authAlert.className = 'auth-alert success';
+      authAlert.innerHTML = `<span>✓</span><span>Authenticated as <strong>${role}</strong>. Launching Command Center...</span>`;
+
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 350);
+    }
+
+    // Form submit
+    authForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const code = passcodeInput.value.trim();
+
+      if (code === UNIVERSAL_PASSCODE || code === "urbansense2026" || code === "admin") {
+        grantAccess(selectedRole);
+      } else {
+        authAlert.className = 'auth-alert error';
+        authAlert.innerHTML = `<span>✕</span><span>Invalid passcode. Please use demo passcode: <strong>${UNIVERSAL_PASSCODE}</strong></span>`;
+      }
+    });
+
+    // Quick demo buttons
+    quickBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const role = btn.dataset.quick;
+        // Select corresponding card
+        roleCards.forEach(c => {
+          if (c.dataset.role === role) c.classList.add('selected');
+          else c.classList.remove('selected');
+        });
+        selectedRole = role;
+        passcodeInput.value = UNIVERSAL_PASSCODE;
+        grantAccess(role);
+      });
+    });
+
+  })();
+  </script>
+
+</body>
+</html>
