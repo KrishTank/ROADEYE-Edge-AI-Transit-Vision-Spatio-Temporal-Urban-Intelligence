@@ -1,0 +1,169 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ * 
+ * Antarctic High-Visibility Extreme Climate Mode Styles
+ * National Centre for Polar and Ocean Research (NCPOR) / MoES
+ * Smart India Hackathon 2026 - PS 26060 - Team HackFinity
+ * 
+ * Designed for -40°C blizzard whiteout operations with heavy thermal gloves.
+ * Rules: Pure black #000000, pure white #FFFFFF, 4px solid borders, no gradients.
+ * Touch targets >= 64px, font sizes >= 18pt.
+ */
+
+.antarctic-root {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  letter-spacing: 0.05em;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.antarctic-root * {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
+
+.antarctic-button {
+  background-color: #000000;
+  color: #FFFFFF;
+  border: 4px solid #FFFFFF !important;
+  min-height: 64px;
+  min-width: 64px;
+  font-size: 18pt !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  padding: 16px 24px;
+}
+
+.antarctic-button:hover,
+.antarctic-button:active,
+.antarctic-button:focus {
+  background-color: #FFD700 !important;
+  color: #000000 !important;
+  border-color: #FFD700 !important;
+}
+
+.antarctic-button-active {
+  background-color: #FFD700 !important;
+  color: #000000 !important;
+  border-color: #FFD700 !important;
+}
+
+.antarctic-button-danger {
+  background-color: #FF0000 !important;
+  color: #FFFFFF !important;
+  border: 4px solid #FFFFFF !important;
+  animation: antarctic-pulse-red 1.2s infinite ease-in-out;
+}
+
+.antarctic-button-danger:hover,
+.antarctic-button-danger:active {
+  background-color: #FFFFFF !important;
+  color: #FF0000 !important;
+  border-color: #FF0000 !important;
+}
+
+.antarctic-card {
+  background-color: #000000 !important;
+  border: 4px solid #FFFFFF !important;
+  padding: 20px;
+}
+
+.antarctic-card-accent {
+  border-color: #00FFFF !important;
+}
+
+.antarctic-card-warning {
+  border-color: #FFD700 !important;
+}
+
+.antarctic-card-critical {
+  border-color: #FF0000 !important;
+  animation: antarctic-pulse-border 1.5s infinite;
+}
+
+.antarctic-text-heading {
+  font-size: 24pt !important;
+  font-weight: 900 !important;
+  line-height: 1.3 !important;
+  text-transform: uppercase;
+}
+
+.antarctic-text-body {
+  font-size: 18pt !important;
+  font-weight: 600 !important;
+  line-height: 1.6 !important;
+}
+
+.antarctic-text-mono {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 28pt !important;
+  font-weight: 800 !important;
+}
+
+.antarctic-text-giant {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 36pt !important;
+  font-weight: 900 !important;
+}
+
+.antarctic-checkbox {
+  width: 64px !important;
+  height: 64px !important;
+  min-width: 64px !important;
+  min-height: 64px !important;
+  border: 4px solid #FFFFFF !important;
+  background-color: #000000 !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.antarctic-checkbox.checked {
+  background-color: #00FF00 !important;
+  border-color: #00FF00 !important;
+  color: #000000 !important;
+}
+
+.antarctic-input {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  border: 4px solid #FFFFFF !important;
+  padding: 20px !important;
+  font-size: 18pt !important;
+  font-weight: 700 !important;
+  width: 100%;
+}
+
+.antarctic-input:focus {
+  border-color: #00FFFF !important;
+  outline: none;
+}
+
+@keyframes antarctic-pulse-red {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 35px 15px rgba(255, 0, 0, 0.9);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes antarctic-pulse-border {
+  0%, 100% {
+    border-color: #FF0000;
+  }
+  50% {
+    border-color: #FFFFFF;
+  }
+}

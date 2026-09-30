@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact &amp; Institutional Support | ROADEYE</title>
+<meta name="description" content="Get in touch with ROADEYE team for municipal partnerships, technical support, or Data Protection Officer inquiries.">
+<!-- Zero-flash theme initialization -->
+<script>
+(function(){
+  var s = localStorage.getItem('ROADEYE_theme');
+  var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<style>
+.contact-wrap {
+  max-width: 1040px;
+  margin: 40px auto 80px;
+  padding: 0 24px;
+}
+.contact-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.contact-title {
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.contact-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 32px;
+}
+@media (max-width: 840px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+.contact-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 36px 32px;
+  box-shadow: var(--shadow-panel);
+}
+.form-group {
+  margin-bottom: 18px;
+}
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 13px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+.form-textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  background: var(--accent-cyan);
+  color: #001018;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--glow-cyan);
+  transition: all var(--transition-fast);
+}
+[data-theme="light"] .btn-submit {
+  background: #2563EB;
+  color: #FFFFFF;
+}
+.btn-submit:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.contact-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.info-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.info-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+}
+.info-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.info-desc {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.info-desc a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+}
+.info-desc a:hover {
+  text-decoration: underline;
+}
+.success-msg {
+  display: none;
+  background: rgba(0, 230, 138, 0.12);
+  border: 1px solid var(--accent-green);
+  color: var(--accent-green);
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="landing-nav">
+  <div class="landing-nav-inner" style="max-width: 1040px;">
+    <a href="index.html" class="landing-logo">
+      <div class="landing-logo-mark">U</div>
+      <div>
+        <div class="landing-logo-text">ROADEYE</div>
+        <div class="landing-logo-tag">Contact &amp; Support</div>
+      </div>
+    </a>
+    <div class="landing-nav-actions">
+      <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+        <span class="theme-toggle-icon">☀️</span>
+        <span class="theme-toggle-label">Theme</span>
+      </button>
+      <a href="dashboard.html" class="btn btn-sm btn-primary">Open Console →</a>
+    </div>
+  </div>
+</header>
+
+<main class="contact-wrap">
+  <div class="contact-header">
+    <div class="page-kicker">COMMUNICATION &amp; PARTNERSHIPS</div>
+    <h1 class="contact-title">Get in Touch with ROADEYE</h1>
+    <p class="contact-sub">Connect with our civic engineering specialists for municipal deployments, smart city pilot programs, or data governance queries.</p>
+  </div>
+
+  <div class="contact-grid">
+    <!-- Contact Form -->
+    <div class="contact-card">
+      <h2 style="font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:18px;">Send us a Message</h2>
+
+      <div id="contactSuccessMsg" class="success-msg">
+        ✓ Thank you for reaching out! Your message has been received. Our municipal engineering desk will contact you within 24 hours.
+      </div>
+
+      <form id="contactForm">
+        <div class="form-group">
+          <label class="form-label" for="contactName">Your Full Name</label>
+          <input type="text" id="contactName" class="form-input" placeholder="e.g., Ananya Deshmukh" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="contactEmail">Department or Official Email</label>
+          <input type="email" id="contactEmail" class="form-input" placeholder="e.g., ananya@transport.gov.in" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="contactSubject">Subject / Inquiry Type</label>
+          <select id="contactSubject" class="form-select" required>
+            <option value="Municipal Transit Pilot">Municipal Transit Pilot (Fleet Sensing)</option>
+            <option value="Public Works Road Defect Integration">Public Works Road Defect Integration</option>
+            <option value="DPDP Compliance & DPO Inquiry">DPDP Compliance &amp; DPO Inquiry</option>
+            <option value="Technical Support & API Access">Technical Support &amp; API Access</option>
+            <option value="General Inquiry">General Inquiry</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="contactMessage">Message</label>
+          <textarea id="contactMessage" class="form-textarea" placeholder="Detail your municipal requirements, fleet vehicle count, or inquiry..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="contactSubmitBtn">Submit Message →</button>
+      </form>
+    </div>
+
+    <!-- Contact Details & Info Cards -->
+    <div class="contact-info-list">
+      <div class="info-card">
+        <div class="info-icon">📍</div>
+        <div>
+          <div class="info-title">Headquarters &amp; AI Labs</div>
+          <div class="info-desc">
+            ROADEYE Technologies Pvt. Ltd.<br>
+            4th Floor, Innovation Hub, Outer Ring Road,<br>
+            Bellandur, Bengaluru, Karnataka 560103, India
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">✉️</div>
+        <div>
+          <div class="info-title">Institutional Support Desk</div>
+          <div class="info-desc">
+            For operational monitoring, SLAs, and technical questions:<br>
+            <a href="mailto:support@ROADEYE.ai">support@ROADEYE.ai</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">🛡️</div>
+        <div>
+          <div class="info-title">Data Protection Officer (DPO)</div>
+          <div class="info-desc">
+            For DPDP Act 2023 statutory notices and data principal requests:<br>
+            <a href="mailto:dpo@ROADEYE.ai">dpo@ROADEYE.ai</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">🏛️</div>
+        <div>
+          <div class="info-title">Civic Grievance Desk</div>
+          <div class="info-desc">
+            Official Grievance Redressal Officer:<br>
+            <a href="mailto:grievance@ROADEYE.ai">grievance@ROADEYE.ai</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Legal Footer -->
+<footer class="site-footer" style="max-width: 1040px; margin: 0 auto 40px;">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo-mark">U</div>
+      <div>
+        <div class="footer-brand-text">ROADEYE Platform</div>
+        <div class="footer-brand-sub">Mobile Urban Sensing &amp; Infrastructure Intelligence</div>
+      </div>
+    </div>
+    <nav class="footer-nav">
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="privacy.html#cookies">Cookie Policy</a>
+      <a href="privacy.html#security">Security</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <div>&copy; 2026 ROADEYE. All rights reserved. Built for intelligent civic governance.</div>
+    <div class="footer-badge"><span class="status-dot"></span> DPDP Act 2023 Compliant · Data Stored in India</div>
+  </div>
+</footer>
+
+<script src="js/components/theme-toggle.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('contactForm');
+  var successMsg = document.getElementById('contactSuccessMsg');
+  var submitBtn = document.getElementById('contactSubmitBtn');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    submitBtn.textContent = 'Submitting...';
+    submitBtn.style.opacity = '0.7';
+
+    setTimeout(function () {
+      form.reset();
+      submitBtn.textContent = 'Submit Message →';
+      submitBtn.style.opacity = '1';
+      successMsg.style.display = 'block';
+      successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 600);
+  });
+});
+</script>
+</body>
+</html>

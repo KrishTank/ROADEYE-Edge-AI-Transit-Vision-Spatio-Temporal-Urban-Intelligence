@@ -1,0 +1,8 @@
+{
+  "name": "DhruvaTwin - Antarctic Stations Digital Twin",
+  "description": "Offline-first Digital Twin platform for Indian Antarctic research stations (Maitri & Bharati) by Team HackFinity007 for SIH 2026 PS 26060 (NCPOR / MoES).",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
