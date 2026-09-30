@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Health | ROADEYE Command Center</title>
+<!-- Zero-flash theme initialization -->
+<script>
+(function(){
+  localStorage.setItem('roadeye_theme', 'light');
+  document.documentElement.setAttribute('data-theme', 'light');
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/themes.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/shell.css">
+<style>
+.service-row, .login-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 12px;
+}
+.service-row:last-child, .login-row:last-child {
+  border-bottom: none;
+}
+.service-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 6px var(--accent-green);
+}
+.service-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+.service-latency {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+.service-status {
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 230, 138, 0.12);
+  color: var(--accent-green);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+.policy-item {
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.login-time {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+.login-user {
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+.login-ip {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+.login-status {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent-green);
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark" style="background: linear-gradient(135deg, #0284C7, #06B6D4); color:#FFFFFF;">R</div>
+      <div>
+        <div class="logo-title" style="font-weight:800; letter-spacing:-0.02em;">ROADEYE</div>
+        <div class="logo-subtitle" style="color:#0284C7;">TRANSIT VISION</div>
+      </div>
+    </div>
+    <nav class="nav-menu">
+      <div class="nav-group-label">10 CONNECTED MODULES</div>
+      <!-- 1. AI Dashboard -->
+      <a href="../dashboard.html" class="nav-item"><span>🏠</span><span>AI Dashboard</span></a>
+      <!-- 2. Live GIS Map -->
+      <a href="gis.html" class="nav-item"><span>🗺️</span><span>Live GIS Map</span></a>
+      <!-- 3. AI Detection -->
+      <a href="scanner.html" class="nav-item"><span>🤖</span><span>AI Detection</span></a>
+      <!-- 4. Vehicle Intelligence -->
+      <a href="vehicle-intel.html" class="nav-item"><span>🚗</span><span>Vehicle Intelligence</span><span class="badge-new">NEW</span></a>
+      <!-- 5. Number Plate / OCR -->
+      <a href="ocr.html" class="nav-item"><span>🔢</span><span>Number Plate / OCR</span><span class="badge-new">NEW</span></a>
+      <!-- 6. Road & Infrastructure -->
+      <a href="road-health.html" class="nav-item"><span>🛣️</span><span>Road &amp; Infrastructure</span></a>
+      <!-- 7. Incident & Alert Center -->
+      <a href="incidents.html" class="nav-item"><span>🚨</span><span>Incident &amp; Alert Center</span></a>
+      <!-- 8. Fleet & Route Management -->
+      <a href="fleet.html" class="nav-item"><span>🚌</span><span>Fleet &amp; Routes</span></a>
+      <!-- 9. Analytics & Reports -->
+      <a href="reports.html" class="nav-item"><span>📊</span><span>Analytics &amp; Reports</span></a>
+      <!-- 10. AI Assistant / Chatbot -->
+      <button class="nav-item" id="chatbotBtn" style="color:#0284C7; cursor:pointer;"><span>💬</span><span>AI Assistant</span></button>
+
+      <div class="nav-group-label" style="margin-top:16px;">GOVERNANCE &amp; CONTROLS</div>
+      <a href="government.html" class="nav-item"><span>🏛️</span><span>Government Action</span><span class="badge-new">NEW</span></a>
+      <a href="field-ops.html" class="nav-item"><span>🔧</span><span>Field Operations</span></a>
+      <a href="system-health.html" class="nav-item active"><span>⚙️</span><span>System Health</span></a>
+      <button class="nav-item" id="simDemoBtn" style="color:#0D9488; cursor:pointer; width:100%; text-align:left;"><span>🎮</span><span>Demo Simulation</span></button>
+      <button class="nav-item" id="resetDemoBtn" style="width:100%; margin-top:12px; color:var(--accent-red); cursor:pointer;"><span>⟲</span><span>Reset Demo</span></button>
+    </nav>
+    <div class="sidebar-status">
+      <strong><span class="status-dot"></span> ROADEYE Online</strong>
+      <small>Edge Mesh Connected</small>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div>
+        <div class="page-kicker">INFRASTRUCTURE · TELEMETRY</div>
+        <h1>System Health &amp; Security</h1>
+        <p>Real-time compute nodes, microservices status, cryptographic audit, and DPDP compliance telemetry</p>
+      </div>
+      <div class="page-actions">
+        <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <span class="theme-toggle-icon">☀️</span>
+          <span class="theme-toggle-label">Theme</span>
+        </button>
+        <div class="live-badge"><span class="status-dot"></span>TELEMETRY LIVE</div>
+        <div class="live-clock" id="liveClock">00:00:00</div>
+      </div>
+    </header>
+
+    <!-- Health Metrics Grid -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-top"><span class="kpi-label">Edge CPU Load</span><span class="kpi-icon">⚡</span></div>
+        <div class="kpi-value" id="shCpu">28<span class="unit">%</span></div>
+        <div class="progress-track" style="margin-top:10px;"><div class="progress-fill" id="shCpuBar" style="width:28%;"></div></div>
+      </div>
+      <div class="kpi-card kpi-amber">
+        <div class="kpi-top"><span class="kpi-label">RAM Utilization</span><span class="kpi-icon kpi-icon-amber">💾</span></div>
+        <div class="kpi-value" id="shMem">42<span class="unit">%</span></div>
+        <div class="progress-track" style="margin-top:10px;"><div class="progress-fill amber" id="shMemBar" style="width:42%;"></div></div>
+      </div>
+      <div class="kpi-card kpi-green">
+        <div class="kpi-top"><span class="kpi-label">Pipeline Latency</span><span class="kpi-icon kpi-icon-green">⏱️</span></div>
+        <div class="kpi-value" id="shLatency">38<span class="unit">ms</span></div>
+        <div class="kpi-bottom"><span id="shLatencySub">Average response</span></div>
+      </div>
+      <div class="kpi-card kpi-violet">
+        <div class="kpi-top"><span class="kpi-label">System Uptime</span><span class="kpi-icon kpi-icon-violet">🚀</span></div>
+        <div class="kpi-value" id="shUptime">99.9%</div>
+        <div class="kpi-bottom"><span id="shUptimeSub">Continuous operations</span></div>
+      </div>
+    </section>
+
+    <!-- Services and Security Grid -->
+    <section class="grid-2">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Microservice Status &amp; Telemetry</h2>
+            <p>Active distributed backend workers</p>
+          </div>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <div id="shServices">
+            <div class="service-row"><span class="service-dot"></span><span class="service-name">GPS Live Broadcast Service</span><span class="service-latency">12 ms</span><span class="service-status">ACTIVE</span></div>
+            <div class="service-row"><span class="service-dot"></span><span class="service-name">YOLOv8 Edge Detection Ingestion</span><span class="service-latency">24 ms</span><span class="service-status">ACTIVE</span></div>
+            <div class="service-row"><span class="service-dot"></span><span class="service-name">GIS Spatial Tile Pipeline</span><span class="service-latency">18 ms</span><span class="service-status">ACTIVE</span></div>
+            <div class="service-row"><span class="service-dot"></span><span class="service-name">DPDP Compliance &amp; Anonymization Gate</span><span class="service-latency">8 ms</span><span class="service-status">ACTIVE</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Cryptographic &amp; Security State</h2>
+            <p>TLS and access controls</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="stat-row"><span class="label">Blocked Threats (24h)</span><span class="value text-green" id="secBlocked">0</span></div>
+          <div class="stat-row"><span class="label">Failed Logins (24h)</span><span class="value" id="secFailed">0</span></div>
+          <div class="stat-row"><span class="label">TLS Enforcement</span><span class="value text-green" id="secTls">TLS 1.3</span></div>
+          <div class="stat-row"><span class="label">Certificate Validity</span><span class="value" id="secCert">324 days</span></div>
+          <div class="stat-row"><span class="label">Authentication Mode</span><span class="value" id="secAuth">RBAC + Tokens</span></div>
+          <div class="stat-row"><span class="label">Multi-Factor Auth (MFA)</span><span class="value text-green" id="secMfa">ENABLED</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Audit Logins & Security Policies -->
+    <section class="grid-2">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Recent Operator Authentications</h2>
+            <p>Audit trail of administrative access</p>
+          </div>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <div id="secLogins">
+            <div class="login-row"><span class="login-time">10:45</span><span class="login-user">operator.bbmp@urbansense.ai</span><span class="login-ip">10.52.79.115</span><span class="login-status">SUCCESS</span></div>
+            <div class="login-row"><span class="login-time">09:12</span><span class="login-user">field.eng@bmtc.gov.in</span><span class="login-ip">10.52.79.120</span><span class="login-status">SUCCESS</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Active Governance Policies</h2>
+            <p>Mandatory DPDP Act &amp; edge constraints</p>
+          </div>
+        </div>
+        <div class="panel-body" style="padding: 16px;">
+          <div id="secPolicies">
+            <div class="policy-item">✓ Zero-Facial-Recognition Rule: Strictly active at edge compiler level.</div>
+            <div class="policy-item">✓ Transient Frame Processing: Raw frames purged from RAM in &lt;100ms.</div>
+            <div class="policy-item">✓ Domestic Data Residency: All storage pinned to Indian sovereign data centres.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platform Footer -->
+    <footer class="site-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-mark" style="background:#0284C7; color:#FFFFFF;">R</div>
+          <div>
+            <div class="footer-brand-text">ROADEYE Intelligence Platform</div>
+            <div class="footer-brand-sub">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
+          </div>
+        </div>
+        <nav class="footer-nav">
+          <a href="../index.html">Landing Page</a>
+          <a href="../welcome.html">Interactive Tour</a>
+          <a href="../login.html">Role Authentication</a>
+          <a href="../dashboard.html">Command Center</a>
+          <a href="../terms.html">Terms</a>
+          <a href="../privacy.html">Privacy</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 ROADEYE. Smart India Hackathon 2026 • PS 26124. Built for intelligent civic governance.</div>
+        <div class="footer-badge"><span class="status-dot"></span> DPDP Act 2023 Compliant · Data Stored in India</div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script src="../js/core/app.js"></script>
+<script src="../js/components/theme-toggle.js"></script>
+<script src="../js/pages/system-health.js"></script>
+<script src="../js/pages/demo-mode.js"></script>
+</body>
+</html>

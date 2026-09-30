@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Zero-flash theme initialization -->
+<script>
+(function(){
+  localStorage.setItem('roadeye_theme', 'light');
+  document.documentElement.setAttribute('data-theme', 'light');
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Government Action | ROADEYE Command Center</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/themes.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/shell.css">
+
+<style>
+/* ============ GOVERNMENT PAGE ============ */
+
+.gov-kpis {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.gov-kpi {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gov-kpi::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 12px; bottom: 12px;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: var(--accent-cyan);
+}
+
+.gov-kpi.amber::before { background: var(--accent-amber); }
+.gov-kpi.green::before { background: var(--accent-green); }
+.gov-kpi.violet::before{ background: var(--accent-violet); }
+.gov-kpi.red::before   { background: var(--accent-red); }
+
+.gov-kpi .label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+}
+
+.gov-kpi .value {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.gov-kpi .sub {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  font-family: var(--font-mono);
+}
+
+/* ============ DEPARTMENT GRID ============ */
+
+.dept-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.dept-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+.dept-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14px; bottom: 14px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--dept-color, var(--accent-cyan));
+  box-shadow: 0 0 12px var(--dept-color, var(--accent-cyan));
+}
+
+.dept-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+
+.dept-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.dept-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.dept-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.dept-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dept-stat .label {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.dept-stat .value {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ============ WORK ORDER ROWS ============ */
+
+.wo-row {
+  display: grid;
+  grid-template-columns: 140px 2fr 100px 130px 100px;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background var(--transition-fast);
+}
+
+.wo-row:hover {
+  background: var(--bg-elevated);
+}
+
+.wo-row:last-child {
+  border-bottom: none;
+}
+
+.wo-id .mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+}
+
+.wo-dept-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.wo-dept-meta {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.wo-status-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.wo-status-pill.assigned {
+  background: rgba(0, 229, 255, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+}
+
+.wo-status-pill.in-progress {
+  background: rgba(255, 179, 0, 0.12);
+  color: var(--accent-amber);
+  border: 1px solid rgba(255, 179, 0, 0.25);
+}
+
+.wo-status-pill.completed,
+.wo-status-pill.resolved {
+  background: rgba(0, 230, 138, 0.12);
+  color: var(--accent-green);
+  border: 1px solid rgba(0, 230, 138, 0.25);
+}
+
+.wo-time {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* ============ SLA PANEL ============ */
+
+.sla-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sla-row:last-child {
+  border-bottom: none;
+}
+
+.sla-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.sla-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.sla-trend {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.sla-trend.good {
+  color: var(--accent-green);
+  background: rgba(0, 230, 138, 0.12);
+}
+
+.sla-trend.bad {
+  color: var(--accent-red);
+  background: rgba(255, 59, 71, 0.12);
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 1200px) {
+  .gov-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dept-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .gov-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dept-grid { grid-template-columns: 1fr; }
+  .wo-row { grid-template-columns: 1fr; gap: 8px; }
+}
+
+@media (max-width: 600px) {
+  .gov-kpis { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark" style="background: linear-gradient(135deg, #0284C7, #06B6D4); color:#FFFFFF;">R</div>
+      <div>
+        <div class="logo-title" style="font-weight:800; letter-spacing:-0.02em;">ROADEYE</div>
+        <div class="logo-subtitle" style="color:#0284C7;">TRANSIT VISION</div>
+      </div>
+    </div>
+    <nav class="nav-menu">
+      <div class="nav-group-label">10 CONNECTED MODULES</div>
+      <!-- 1. AI Dashboard -->
+      <a href="../dashboard.html" class="nav-item"><span>🏠</span><span>AI Dashboard</span></a>
+      <!-- 2. Live GIS Map -->
+      <a href="gis.html" class="nav-item"><span>🗺️</span><span>Live GIS Map</span></a>
+      <!-- 3. AI Detection -->
+      <a href="scanner.html" class="nav-item"><span>🤖</span><span>AI Detection</span></a>
+      <!-- 4. Vehicle Intelligence -->
+      <a href="vehicle-intel.html" class="nav-item"><span>🚗</span><span>Vehicle Intelligence</span><span class="badge-new">NEW</span></a>
+      <!-- 5. Number Plate / OCR -->
+      <a href="ocr.html" class="nav-item"><span>🔢</span><span>Number Plate / OCR</span><span class="badge-new">NEW</span></a>
+      <!-- 6. Road & Infrastructure -->
+      <a href="road-health.html" class="nav-item"><span>🛣️</span><span>Road &amp; Infrastructure</span></a>
+      <!-- 7. Incident & Alert Center -->
+      <a href="incidents.html" class="nav-item"><span>🚨</span><span>Incident &amp; Alert Center</span></a>
+      <!-- 8. Fleet & Route Management -->
+      <a href="fleet.html" class="nav-item"><span>🚌</span><span>Fleet &amp; Routes</span></a>
+      <!-- 9. Analytics & Reports -->
+      <a href="reports.html" class="nav-item"><span>📊</span><span>Analytics &amp; Reports</span></a>
+      <!-- 10. AI Assistant / Chatbot -->
+      <button class="nav-item" id="chatbotBtn" style="color:#0284C7; cursor:pointer;"><span>💬</span><span>AI Assistant</span></button>
+
+      <div class="nav-group-label" style="margin-top:16px;">GOVERNANCE &amp; CONTROLS</div>
+      <a href="government.html" class="nav-item active"><span>🏛️</span><span>Government Action</span><span class="badge-new">NEW</span></a>
+      <a href="field-ops.html" class="nav-item"><span>🔧</span><span>Field Operations</span></a>
+      <a href="system-health.html" class="nav-item"><span>⚙️</span><span>System Health</span></a>
+      <button class="nav-item" id="simDemoBtn" style="color:#0D9488; cursor:pointer; width:100%; text-align:left;"><span>🎮</span><span>Demo Simulation</span></button>
+      <button class="nav-item" id="resetDemoBtn" style="width:100%; margin-top:12px; color:var(--accent-red); cursor:pointer;"><span>⟲</span><span>Reset Demo</span></button>
+    </nav>
+    <div class="sidebar-status">
+      <strong><span class="status-dot"></span> ROADEYE Online</strong>
+      <small>Edge Mesh Connected</small>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <header class="page-header">
+      <div>
+        <div class="page-kicker">ROADEYE · MUNICIPAL RESPONSE</div>
+        <h1>Government Action</h1>
+        <p>Work orders, department assignment, and municipal workflow tracking</p>
+      </div>
+      <div class="page-actions">
+        <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <span class="theme-toggle-icon">☀️</span>
+          <span class="theme-toggle-label">Theme</span>
+        </button>
+        <div class="live-badge"><span class="status-dot"></span>LIVE</div>
+        <div class="live-clock" id="liveClock">00:00:00</div>
+      </div>
+    </header>
+
+    <!-- KPI ROW -->
+    <section class="gov-kpis">
+      <div class="gov-kpi">
+        <div class="label">Total Work Orders</div>
+        <div class="value" id="govTotalOrders">0</div>
+        <div class="sub">All tickets raised</div>
+      </div>
+      <div class="gov-kpi amber">
+        <div class="label">Assigned</div>
+        <div class="value" id="govAssigned">0</div>
+        <div class="sub">Awaiting field action</div>
+      </div>
+      <div class="gov-kpi violet">
+        <div class="label">In Progress</div>
+        <div class="value" id="govInProgress">0</div>
+        <div class="sub">Crews on site</div>
+      </div>
+      <div class="gov-kpi green">
+        <div class="label">Resolved</div>
+        <div class="value" id="govResolved">0</div>
+        <div class="sub">Completed &amp; verified</div>
+      </div>
+      <div class="gov-kpi red">
+        <div class="label">Pending Incidents</div>
+        <div class="value" id="govPendingIncidents">0</div>
+        <div class="sub">Not yet dispatched</div>
+      </div>
+    </section>
+
+    <!-- DEPARTMENTS -->
+    <section class="panel">
+      <div class="panel-head">
+        <div class="panel-title">
+          <h2>Municipal Departments</h2>
+          <p>Active workload and SLA compliance per department</p>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="dept-grid" id="govDeptGrid"></div>
+      </div>
+    </section>
+
+    <!-- TWO COLUMN: WORK ORDERS + SLA -->
+    <section class="grid-2">
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Recent Work Orders</h2>
+            <p>Latest 20 tickets raised from incidents</p>
+          </div>
+          <a href="incidents.html" class="panel-link">Raise ticket →</a>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <div id="govOrdersList"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>SLA Performance</h2>
+            <p>Response and resolution metrics</p>
+          </div>
+        </div>
+        <div class="panel-body" id="govSlaPanel"></div>
+      </div>
+
+    </section>
+
+      <!-- Platform Footer -->
+    <footer class="site-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-mark" style="background:#0284C7; color:#FFFFFF;">R</div>
+          <div>
+            <div class="footer-brand-text">ROADEYE Intelligence Platform</div>
+            <div class="footer-brand-sub">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
+          </div>
+        </div>
+        <nav class="footer-nav">
+          <a href="../index.html">Landing Page</a>
+          <a href="../welcome.html">Interactive Tour</a>
+          <a href="../login.html">Role Authentication</a>
+          <a href="../dashboard.html">Command Center</a>
+          <a href="../terms.html">Terms</a>
+          <a href="../privacy.html">Privacy</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 ROADEYE. Smart India Hackathon 2026 • PS 26124. Built for intelligent civic governance.</div>
+        <div class="footer-badge"><span class="status-dot"></span> DPDP Act 2023 Compliant · Data Stored in India</div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script src="../js/core/app.js"></script>
+<script src="../js/core/api.js"></script>
+<script src="../js/core/api-bridge.js"></script>
+<script src="../js/core/realtime.js"></script>
+<script src="../js/components/right-panel.js"></script>
+<script src="../js/components/chatbot.js"></script>
+<script src="../js/components/sim-controls.js"></script>
+<script src="../js/pages/government.js"></script>
+<script src="../js/pages/demo-mode.js"></script>
+<script src="../js/components/theme-toggle.js"></script>
+</body>
+</html>
