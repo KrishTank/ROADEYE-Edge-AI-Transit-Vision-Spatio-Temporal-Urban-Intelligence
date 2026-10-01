@@ -1,6 +1,4 @@
-# UrbanSense AI
-
-AI-powered urban infrastructure monitoring using public-transport buses as mobile sensing units.
+ROADEYE:Edge AI Transit Vision Spatio Temporal Urban Intelligence
 
 ## Prototype flow
 
