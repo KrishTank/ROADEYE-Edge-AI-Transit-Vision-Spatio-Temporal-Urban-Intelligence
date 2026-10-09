@@ -1,800 +1,1208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UrbanSense AI — Turning City Buses Into Urban Intelligence</title>
-<meta name="description" content="An AI-powered platform that transforms public transport fleets into mobile sensing networks for road safety, traffic management, and municipal response.">
-<!-- Zero-flash theme initialization -->
-<script>
-(function(){
-  var s = localStorage.getItem('urbansense_theme');
-  var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-  document.documentElement.setAttribute('data-theme', t);
-})();
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/themes.css">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/responsive.css">
-<style>
-/* =========================================================
-   LANDING PAGE STYLES
-   Airy, modern, Linear/Stripe aesthetic in light mode & cyber-navy in dark mode
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROADEYE — Edge-AI Transit Vision & Spatio-Temporal Urban Intelligence</title>
+  <meta name="description"
+    content="ROADEYE turns public transport buses into intelligent mobile urban sensing units using Edge AI, GPS, and GIS intelligence for real-time road safety and infrastructure monitoring.">
+  <!-- Zero-flash theme initialization: Strictly Light Mode as requested -->
+  <script>
+    (function () {
+      localStorage.setItem('roadeye_theme', 'light');
+      document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    /* =========================================================
+   ROADEYE LANDING PAGE — LIGHT THEME SPECIFICATION
+   White, very light blue, soft cyan gradients, subtle GIS grid,
+   abstract road-network lines, small connected nodes, minimal city illustration.
    ========================================================= */
 
-.landing-nav {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: var(--header-bg);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 14px 32px;
-}
+    :root {
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --roadeye-blue: #0284C7;
+      --roadeye-navy: #0F172A;
+      --roadeye-cyan: #06B6D4;
+      --roadeye-teal: #0D9488;
+      --roadeye-light-bg: #F8FAFC;
+      --roadeye-hero-bg: radial-gradient(circle at 50% 0%, #E0F2FE 0%, #F0F9FF 50%, #FFFFFF 100%);
+      --roadeye-card-bg: #FFFFFF;
+      --roadeye-border: #E2E8F0;
+      --roadeye-shadow: 0 10px 30px -5px rgba(2, 132, 199, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
 
-.landing-nav-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-sans);
+      background-color: #FFFFFF;
+      color: var(--roadeye-navy);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-.landing-logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-}
+    /* Page Transition Wrapper */
+    .page-container {
+      opacity: 1;
+      animation: pageFadeIn 0.4s ease-out;
+    }
 
-.landing-logo-mark {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
-  color: #001018;
-  font-weight: 800;
-  font-size: 17px;
-  border-radius: var(--radius-md);
-  box-shadow: var(--glow-cyan);
-}
+    @keyframes pageFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
 
-[data-theme="light"] .landing-logo-mark {
-  background: linear-gradient(135deg, #2563EB, #7C3AED);
-  color: #FFFFFF;
-}
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-.landing-logo-text {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.01em;
-}
+    /* Navigation */
+    .landing-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+      padding: 16px 36px;
+      transition: all 0.2s ease;
+    }
 
-.landing-logo-tag {
-  font-size: 9px;
-  font-family: var(--font-mono);
-  letter-spacing: 1.2px;
-  color: var(--accent-cyan);
-  text-transform: uppercase;
-}
+    .landing-nav-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
 
-.landing-links {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
+    .landing-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
 
-.landing-links a {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
+    .logo-icon-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0284C7, #06B6D4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 20px;
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+      transition: transform 0.2s ease;
+    }
 
-.landing-links a:hover {
-  color: var(--accent-cyan);
-}
+    .landing-logo:hover .logo-icon-wrap {
+      transform: scale(1.05);
+    }
 
-.landing-nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+    .logo-text-block {
+      display: flex;
+      flex-direction: column;
+    }
 
-/* Hero Section */
-.hero-section {
-  position: relative;
-  padding: 100px 24px 80px;
-  text-align: center;
-  max-width: 1100px;
-  margin: 0 auto;
-  overflow: hidden;
-}
+    .logo-brand {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #0F172A;
+      line-height: 1.1;
+    }
 
-.hero-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  border-radius: 999px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-strong);
-  font-size: 11px;
-  font-family: var(--font-mono);
-  color: var(--text-primary);
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-sm);
-}
+    .logo-sub {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: #0284C7;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
-.hero-pill .pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent-green);
-  box-shadow: 0 0 8px var(--accent-green);
-}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
 
-.hero-title {
-  font-size: clamp(34px, 5.5vw, 62px);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
-  margin-bottom: 22px;
-}
+    .nav-link {
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
 
-.hero-title span.gradient-text {
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+    .nav-link:hover {
+      color: #0284C7;
+    }
 
-[data-theme="light"] .hero-title span.gradient-text {
-  background: linear-gradient(135deg, #2563EB, #7C3AED);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+    .nav-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-.hero-subhead {
-  font-size: clamp(16px, 2vw, 19px);
-  line-height: 1.6;
-  color: var(--text-secondary);
-  max-width: 760px;
-  margin: 0 auto 36px;
-}
+    .btn-secondary-nav {
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0F172A;
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
 
-.hero-ctas {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 50px;
-}
+    .btn-secondary-nav:hover {
+      background: #E2E8F0;
+    }
 
-.btn-hero {
-  padding: 12px 24px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all var(--transition-fast);
-}
+    .btn-primary-nav {
+      padding: 9px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: linear-gradient(135deg, #0284C7, #0284C7);
+      border: 1px solid #0284C7;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.25);
+      transition: all 0.15s ease;
+    }
 
-.btn-hero-primary {
-  background: var(--accent-cyan);
-  color: #001018;
-  box-shadow: var(--glow-cyan);
-  border: 1px solid var(--accent-cyan);
-}
+    .btn-primary-nav:hover {
+      background: #0369A1;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    }
 
-[data-theme="light"] .btn-hero-primary {
-  background: #2563EB;
-  color: #FFFFFF;
-  border-color: #2563EB;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-}
+    /* =========================================================
+   HERO SECTION
+   ========================================================= */
 
-.btn-hero-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-}
+    .hero-section {
+      position: relative;
+      background: var(--roadeye-hero-bg);
+      padding: 72px 24px 96px;
+      overflow: hidden;
+      border-bottom: 1px solid #E2E8F0;
+    }
 
-.btn-hero-secondary {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-strong);
-  color: var(--text-primary);
-}
+    /* Subtle GIS Grid & Abstract Lines Background */
+    .hero-gis-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(2, 132, 199, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(2, 132, 199, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 80%);
+      pointer-events: none;
+    }
 
-.btn-hero-secondary:hover {
-  background: var(--bg-hover);
-  border-color: var(--accent-cyan);
-  transform: translateY(-2px);
-}
+    .hero-road-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.45;
+    }
 
-.btn-hero-ghost {
-  background: transparent;
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-}
+    .hero-inner {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      z-index: 2;
+    }
 
-.btn-hero-ghost:hover {
-  color: var(--text-primary);
-  border-color: var(--border-strong);
-  background: var(--bg-elevated);
-}
+    /* Small Badge */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: #FFFFFF;
+      border: 1px solid #BAE6FD;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.08);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: #0369A1;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 24px;
+    }
 
-/* Dashboard Mockup Preview */
-.hero-mockup-wrap {
-  position: relative;
-  max-width: 1040px;
-  margin: 0 auto;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow-popup);
-  overflow: hidden;
-  background: var(--bg-panel);
-}
+    .hero-badge-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #0284C7;
+      box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7);
+      animation: pulseBadge 2s infinite;
+    }
 
-.mockup-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  background: var(--bg-elevated);
-  border-bottom: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-}
+    @keyframes pulseBadge {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7);
+      }
 
-.mockup-dots {
-  display: flex;
-  gap: 6px;
-}
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 8px rgba(2, 132, 199, 0);
+      }
 
-.mockup-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(2, 132, 199, 0);
+      }
+    }
 
-.mockup-dot.red { background: #FF5F56; }
-.mockup-dot.yellow { background: #FFBD2E; }
-.mockup-dot.green { background: #27C93F; }
+    .hero-brand-title {
+      font-size: 64px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #0F172A;
+      margin: 0 0 8px;
+      line-height: 1.05;
+    }
 
-.mockup-content {
-  padding: 24px;
-}
+    .hero-brand-title .accent-text {
+      background: linear-gradient(135deg, #0284C7 0%, #0D9488 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-/* Sections */
-.section {
-  padding: 80px 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+    .hero-sub-kicker {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0284C7;
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+    }
 
-.section-head {
-  text-align: center;
-  max-width: 680px;
-  margin: 0 auto 50px;
-}
+    .hero-main-headline {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.25;
+      color: #1E293B;
+      max-width: 860px;
+      margin: 0 auto 20px;
+      letter-spacing: -0.02em;
+    }
 
-.section-kicker {
-  font-size: 11px;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--accent-cyan);
-  margin-bottom: 10px;
-}
+    .hero-supporting-text {
+      font-size: 17px;
+      line-height: 1.65;
+      color: #475569;
+      max-width: 780px;
+      margin: 0 auto 36px;
+      font-weight: 400;
+    }
 
-.section-title {
-  font-size: clamp(26px, 3.5vw, 36px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-  margin-bottom: 14px;
-}
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
 
-.section-desc {
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--text-secondary);
-}
+    .btn-hero-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+      border: 1px solid #0284C7;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(2, 132, 199, 0.35);
+      transition: all 0.2s ease;
+    }
 
-/* Problem & Solution Cards */
-.problem-box {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-lg);
-  padding: 30px 36px;
-  margin-bottom: 50px;
-  position: relative;
-  overflow: hidden;
-}
+    .btn-hero-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(2, 132, 199, 0.45);
+    }
 
-.problem-box::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 4px;
-  background: var(--accent-amber);
-}
+    .btn-hero-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1E293B;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+      transition: all 0.2s ease;
+    }
 
-.problem-box h3 {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
+    .btn-hero-secondary:hover {
+      background: #F8FAFC;
+      border-color: #94A3B8;
+      transform: translateY(-1px);
+    }
 
-.problem-box p {
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--text-secondary);
-}
+    /* =========================================================
+   CENTRAL VISUAL — TRANSIT VISION PIPELINE
+   🚌 SMART BUS -> 📷 CAMERAS -> 🤖 EDGE AI -> 📍 GPS -> 🗺️ GIS -> 🏙️ URBAN INTELLIGENCE
+   ========================================================= */
 
-.feature-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
+    .central-visual-card {
+      max-width: 1080px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 20px 45px -10px rgba(2, 132, 199, 0.12), 0 4px 16px rgba(15, 23, 42, 0.04);
+      position: relative;
+    }
 
-@media (max-width: 860px) {
-  .feature-grid-3 { grid-template-columns: 1fr; }
-}
+    .central-visual-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #F1F5F9;
+    }
 
-.feature-card {
-  background: var(--bg-panel);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  position: relative;
-  transition: all var(--transition-base);
-  box-shadow: var(--shadow-sm);
-}
+    .cv-tag {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: #0284C7;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-.feature-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent-cyan);
-  box-shadow: var(--shadow-panel);
-}
+    .cv-live-badge {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      background: #ECFDF5;
+      color: #047857;
+      border: 1px solid #A7F3D0;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-.feature-icon-wrap {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
-  display: grid;
-  place-items: center;
-  font-size: 22px;
-  margin-bottom: 18px;
-  background: var(--bg-elevated);
-  color: var(--accent-cyan);
-  border: 1px solid var(--border-subtle);
-}
+    .cv-live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10B981;
+      animation: pulseDot 1.5s infinite;
+    }
 
-.feature-card h3 {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-}
+    @keyframes pulseDot {
+      0% {
+        opacity: 0.4;
+      }
 
-.feature-card p {
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-}
+      50% {
+        opacity: 1;
+      }
 
-.feature-tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
+      100% {
+        opacity: 0.4;
+      }
+    }
 
-.feature-tag {
-  font-size: 10px;
-  font-family: var(--font-mono);
-  padding: 3px 8px;
-  border-radius: var(--radius-sm);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-muted);
-}
+    /* Bus Visual Stage */
+    .pipeline-flow-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      align-items: center;
+      position: relative;
+    }
 
-/* Architecture Section */
-.arch-diagram-wrap {
-  background: var(--bg-panel);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  padding: 36px 24px;
-  box-shadow: var(--shadow-panel);
-  overflow-x: auto;
-}
+    .pipeline-step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 16px 10px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
 
-.arch-svg {
-  display: block;
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  height: auto;
-}
+    .pipeline-step-item.is-hero-bus {
+      background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+      border: 2px solid #38BDF8;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(2, 132, 199, 0.15);
+    }
 
-/* Statistics Grid */
-.stats-grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
-  margin-bottom: 20px;
-}
+    .pipeline-step-item:hover {
+      border-color: #0284C7;
+      transform: translateY(-3px);
+      background: #FFFFFF;
+      box-shadow: 0 8px 18px rgba(2, 132, 199, 0.1);
+    }
 
-@media (max-width: 768px) {
-  .stats-grid-4 { grid-template-columns: repeat(2, 1fr); }
-}
+    .step-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+      margin-bottom: 10px;
+    }
 
-.stat-box {
-  background: var(--bg-panel);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 24px 20px;
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-}
+    .is-hero-bus .step-icon-wrap {
+      background: #0284C7;
+      color: #FFFFFF;
+      border-color: #0284C7;
+      font-size: 28px;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    }
 
-.stat-number {
-  font-size: 38px;
-  font-weight: 800;
-  font-family: var(--font-mono);
-  color: var(--accent-cyan);
-  line-height: 1;
-  margin-bottom: 8px;
-}
+    .step-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 4px;
+    }
 
-.stat-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
+    .step-subtext {
+      font-size: 11px;
+      color: #64748B;
+      line-height: 1.3;
+    }
 
-.stat-sub {
-  font-size: 11px;
-  color: var(--text-muted);
-}
+    .step-arrow-connector {
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94A3B8;
+      font-size: 14px;
+      font-weight: 800;
+      z-index: 3;
+    }
 
-.stats-disclaimer {
-  text-align: center;
-  font-size: 11px;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  background: var(--bg-elevated);
-  border: 1px dashed var(--border-strong);
-  padding: 8px 16px;
-  border-radius: var(--radius-md);
-  display: inline-block;
-  margin: 10px auto 0;
-}
+    /* Live Simulation Banner in Visual */
+    .cv-bottom-banner {
+      margin-top: 24px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      background: #F0F9FF;
+      border: 1px solid #BAE6FD;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #0369A1;
+    }
 
-/* CTA Banner */
-.cta-banner {
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(124, 58, 237, 0.08));
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-xl);
-  padding: 60px 32px;
-  text-align: center;
-  box-shadow: var(--shadow-panel);
-}
+    .cv-metric-pill {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      background: #FFFFFF;
+      padding: 3px 10px;
+      border-radius: 6px;
+      border: 1px solid #BAE6FD;
+    }
 
-.cta-banner h2 {
-  font-size: clamp(26px, 3.5vw, 36px);
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 14px;
-}
+    /* =========================================================
+   FEATURE CARDS SECTION
+   ========================================================= */
 
-.cta-banner p {
-  font-size: 16px;
-  color: var(--text-secondary);
-  max-width: 600px;
-  margin: 0 auto 30px;
-}
-</style>
+    .features-section {
+      padding: 96px 24px;
+      background: #FFFFFF;
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 60px;
+    }
+
+    .section-kicker {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: #0284C7;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: #0F172A;
+      letter-spacing: -0.02em;
+      margin: 0 0 14px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: #64748B;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+      transition: all 0.25s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: #0284C7;
+      box-shadow: 0 16px 30px -8px rgba(2, 132, 199, 0.12);
+    }
+
+    .feature-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      background: #F0F9FF;
+      border: 1px solid #BAE6FD;
+      margin-bottom: 20px;
+    }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0F172A;
+      margin: 0 0 10px;
+    }
+
+    .feature-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #64748B;
+      margin: 0 0 18px;
+      flex-grow: 1;
+    }
+
+    .feature-badge {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: #0284C7;
+      background: #F8FAFC;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #E2E8F0;
+      align-self: flex-start;
+    }
+
+    /* =========================================================
+   STATISTICS SECTION (DEMO VALUES)
+   ========================================================= */
+
+    .stats-section {
+      padding: 72px 24px;
+      background: #F8FAFC;
+      border-top: 1px solid #E2E8F0;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .stats-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto 32px;
+    }
+
+    .stats-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0F172A;
+      letter-spacing: -0.01em;
+    }
+
+    .demo-data-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .stat-box {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 22px 18px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+      transition: transform 0.2s ease;
+    }
+
+    .stat-box:hover {
+      transform: translateY(-2px);
+      border-color: #0284C7;
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 800;
+      color: #0284C7;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    /* =========================================================
+   BOTTOM CTA SECTION
+   ========================================================= */
+
+    .landing-cta-section {
+      padding: 96px 24px;
+      background: radial-gradient(circle at 50% 100%, #E0F2FE 0%, #FFFFFF 70%);
+      text-align: center;
+    }
+
+    .cta-box {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      border: 1px solid #BAE6FD;
+      border-radius: 24px;
+      padding: 56px 40px;
+      box-shadow: 0 20px 40px -10px rgba(2, 132, 199, 0.15);
+    }
+
+    .cta-title {
+      font-size: 36px;
+      font-weight: 800;
+      color: #0F172A;
+      margin: 0 0 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-subtext {
+      font-size: 16px;
+      color: #64748B;
+      max-width: 580px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+
+    .btn-cta-large {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 40px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+      border: none;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(2, 132, 199, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-cta-large:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(2, 132, 199, 0.5);
+    }
+
+    /* Footer */
+    .landing-footer {
+      background: #F8FAFC;
+      border-top: 1px solid #E2E8F0;
+      padding: 40px 24px;
+      font-size: 13px;
+      color: #64748B;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: #64748B;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: #0284C7;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-brand-title {
+        font-size: 48px;
+      }
+
+      .hero-main-headline {
+        font-size: 28px;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .pipeline-flow-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .step-arrow-connector {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .landing-nav {
+        padding: 12px 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero-brand-title {
+        font-size: 38px;
+      }
+
+      .hero-main-headline {
+        font-size: 22px;
+      }
+
+      .hero-supporting-text {
+        font-size: 15px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pipeline-flow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-box {
+        padding: 36px 20px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- Navigation Bar -->
-<header class="landing-nav">
-  <div class="landing-nav-inner">
-    <a href="index.html" class="landing-logo">
-      <div class="landing-logo-mark">U</div>
-      <div>
-        <div class="landing-logo-text">UrbanSense AI</div>
-        <div class="landing-logo-tag">Civic Intelligence</div>
+  <div class="page-container">
+
+    <!-- ==================== STAGE 1: NAVIGATION ==================== -->
+    <header class="landing-nav">
+      <div class="landing-nav-inner">
+        <a href="index.html" class="landing-logo">
+          <div class="logo-icon-wrap">🚌</div>
+          <div class="logo-text-block">
+            <span class="logo-brand">ROADEYE</span>
+            <span class="logo-sub">EDGE-AI TRANSIT VISION</span>
+          </div>
+        </a>
+
+        <nav class="nav-links">
+          <a href="#how-it-works" class="nav-link">How It Works</a>
+          <a href="#features" class="nav-link">Capabilities</a>
+          <a href="#statistics" class="nav-link">Metrics</a>
+          <a href="welcome.html" class="nav-link">Interactive Tour</a>
+        </nav>
+
+        <div class="nav-cta-group">
+          <a href="welcome.html" class="btn-secondary-nav">View How It Works</a>
+          <a href="login.html" class="btn-primary-nav">Command Center →</a>
+        </div>
       </div>
-    </a>
+    </header>
 
-    <nav class="landing-links">
-      <a href="#about">Overview</a>
-      <a href="#features">Capabilities</a>
-      <a href="#architecture">Architecture</a>
-      <a href="#metrics">Impact</a>
-      <a href="dashboard.html">Live Command Center</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero-section">
+      <div class="hero-gis-grid"></div>
 
-    <div class="landing-nav-actions">
-      <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
-        <span class="theme-toggle-icon">☀️</span>
-        <span class="theme-toggle-label">Theme</span>
-      </button>
-      <a href="login.html" class="btn btn-sm btn-ghost">Sign In</a>
-      <a href="dashboard.html" class="btn btn-sm btn-primary">Open Console →</a>
-    </div>
-  </div>
-</header>
+      <!-- Abstract Road Network SVG -->
+      <svg class="hero-road-lines" viewBox="0 0 1440 600" fill="none" preserveAspectRatio="none">
+        <path d="M-50,280 C280,120 540,420 900,260 C1220,120 1340,360 1500,290" stroke="#0284C7" stroke-width="2"
+          stroke-dasharray="6 6" />
+        <path d="M0,450 C360,380 620,520 1080,410 C1320,350 1420,440 1500,430" stroke="#38BDF8" stroke-width="1.5"
+          stroke-opacity="0.6" />
+        <circle cx="360" cy="220" r="4" fill="#0284C7" />
+        <circle cx="900" cy="260" r="5" fill="#0D9488" />
+        <circle cx="1080" cy="410" r="4" fill="#0284C7" />
+      </svg>
 
-<!-- Hero Section -->
-<section class="hero-section">
-  <div class="hero-pill">
-    <span class="pulse-dot"></span>
-    <span>Autonomous Mobile Edge Sensing · v2.4 Platform</span>
-  </div>
+      <div class="hero-inner">
+        <!-- Small Badge -->
+        <div class="hero-badge">
+          <span class="hero-badge-pulse"></span>
+          SIH 2026 • PS 26124 • EDGE AI • URBAN INTELLIGENCE
+        </div>
 
-  <h1 class="hero-title">
-    Turning City Buses Into<br>
-    <span class="gradient-text">Urban Intelligence</span>
-  </h1>
+        <!-- Project Name -->
+        <h1 class="hero-brand-title">ROADEYE</h1>
+        <div class="hero-sub-kicker">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
 
-  <p class="hero-subhead">
-    An AI-powered platform that transforms public transport fleets into mobile sensing networks for road safety, traffic management, and municipal response.
-  </p>
+        <!-- Main Headline -->
+        <h2 class="hero-main-headline">
+          Turning Public Transport Buses Into Intelligent Urban Sensors
+        </h2>
 
-  <div class="hero-ctas">
-    <a href="dashboard.html" class="btn-hero btn-hero-primary">
-      <span>🚀</span>
-      <span>Explore Live Command Center</span>
-    </a>
-    <a href="login.html" class="btn-hero btn-hero-secondary">
-      <span>🔐</span>
-      <span>Sign In</span>
-    </a>
-    <a href="contact.html" class="btn-hero btn-hero-ghost">
-      <span>📞</span>
-      <span>Request Municipal Demo</span>
-    </a>
-  </div>
+        <!-- Supporting Text -->
+        <p class="hero-supporting-text">
+          ROADEYE uses bus-mounted cameras, Edge AI, GPS and GIS intelligence to understand roads, traffic,
+          infrastructure and urban safety conditions in real time.
+        </p>
 
-  <!-- Interactive Dashboard Preview Box -->
-  <div class="hero-mockup-wrap">
-    <div class="mockup-topbar">
-      <div class="mockup-dots">
-        <div class="mockup-dot red"></div>
-        <div class="mockup-dot yellow"></div>
-        <div class="mockup-dot green"></div>
+        <!-- Primary & Secondary Buttons -->
+        <div class="hero-actions">
+          <a href="welcome.html" class="btn-hero-primary" id="btnExploreRoadeye">
+            <span>Explore ROADEYE</span>
+            <span>→</span>
+          </a>
+          <a href="welcome.html#pipeline" class="btn-hero-secondary">
+            <span>View How It Works</span>
+          </a>
+        </div>
+
+        <!-- ==================== CENTRAL VISUAL: SMART BUS TO URBAN INTEL ==================== -->
+        <div class="central-visual-card" id="how-it-works">
+          <div class="central-visual-header">
+            <div class="cv-tag">
+              <span>⚡</span>
+              <span>Edge-To-Cloud Autonomous Sensing Pipeline</span>
+            </div>
+            <div class="cv-live-badge">
+              <span class="cv-live-dot"></span>
+              ACTIVE FLEET NETWORK · DEMO READY
+            </div>
+          </div>
+
+          <div class="pipeline-flow-grid">
+            <!-- 1. SMART BUS -->
+            <div class="pipeline-step-item is-hero-bus">
+              <div class="step-icon-wrap">🚌</div>
+              <div class="step-title">SMART BUS</div>
+              <div class="step-subtext">Mobile Transit Unit</div>
+              <span class="step-arrow-connector">→</span>
+            </div>
+
+            <!-- 2. CAMERAS -->
+            <div class="pipeline-step-item">
+              <div class="step-icon-wrap">📷</div>
+              <div class="step-title">CAMERAS</div>
+              <div class="step-subtext">Dash &amp; Road Mounts</div>
+              <span class="step-arrow-connector">→</span>
+            </div>
+
+            <!-- 3. EDGE AI -->
+            <div class="pipeline-step-item">
+              <div class="step-icon-wrap">🤖</div>
+              <div class="step-title">EDGE AI</div>
+              <div class="step-subtext">On-Device Inference</div>
+              <span class="step-arrow-connector">→</span>
+            </div>
+
+            <!-- 4. GPS -->
+            <div class="pipeline-step-item">
+              <div class="step-icon-wrap">📍</div>
+              <div class="step-title">GPS</div>
+              <div class="step-subtext">Geo &amp; Timestamp Sync</div>
+              <span class="step-arrow-connector">→</span>
+            </div>
+
+            <!-- 5. GIS -->
+            <div class="pipeline-step-item">
+              <div class="step-icon-wrap">🗺️</div>
+              <div class="step-title">GIS</div>
+              <div class="step-subtext">Spatial Telemetry Map</div>
+              <span class="step-arrow-connector">→</span>
+            </div>
+
+            <!-- 6. URBAN INTELLIGENCE -->
+            <div class="pipeline-step-item">
+              <div class="step-icon-wrap">🏙️</div>
+              <div class="step-title">URBAN INTEL</div>
+              <div class="step-subtext">Government Action</div>
+            </div>
+          </div>
+
+          <div class="cv-bottom-banner">
+            <span>Continuous edge inference detects road anomalies, traffic bottlenecks, and safety incidents at 30
+              FPS</span>
+            <span class="cv-metric-pill">&lt; 45ms Edge Latency</span>
+          </div>
+        </div>
+
       </div>
-      <div>urbansense-command-center.local:5500/dashboard.html</div>
-      <div class="live-badge" style="padding:2px 8px; font-size:9px;"><span class="status-dot"></span>LIVE TELEMETRY</div>
-    </div>
-    <div class="mockup-content">
-      <div class="kpi-grid" style="margin-bottom: 14px;">
-        <div class="kpi-card"><div class="kpi-top"><span class="kpi-label">Active Sensing Fleet</span><span class="kpi-icon">▣</span></div><div class="kpi-value">8<span class="kpi-unit">buses</span></div><div class="kpi-bottom"><span class="kpi-trend up">↑ 100%</span><span>Covering Outer Ring Road</span></div></div>
-        <div class="kpi-card kpi-red"><div class="kpi-top"><span class="kpi-label">Detected Road Hazards</span><span class="kpi-icon kpi-icon-red">⚠</span></div><div class="kpi-value">423<span class="kpi-unit">events</span></div><div class="kpi-bottom"><span class="kpi-trend down">↑ Realtime</span><span>Potholes, waterlogging, cracks</span></div></div>
-        <div class="kpi-card kpi-amber"><div class="kpi-top"><span class="kpi-label">Average Edge Latency</span><span class="kpi-icon kpi-icon-amber">⚡</span></div><div class="kpi-value">42<span class="kpi-unit">ms</span></div><div class="kpi-bottom"><span class="kpi-trend flat">— Local inference</span><span>Zero cloud bandwidth hog</span></div></div>
-        <div class="kpi-card kpi-green"><div class="kpi-top"><span class="kpi-label">Inference Accuracy</span><span class="kpi-icon kpi-icon-green">◎</span></div><div class="kpi-value">94.8<span class="kpi-unit">%</span></div><div class="kpi-bottom"><span class="kpi-trend up">↑ YOLOv8</span><span>High confidence detections</span></div></div>
+    </section>
+
+    <!-- ==================== FEATURE CARDS ==================== -->
+    <section class="features-section" id="features">
+      <div class="section-container">
+        <div class="section-head">
+          <div class="section-kicker">Core System Architecture</div>
+          <h2 class="section-title">Autonomous Sensing Across Every Route</h2>
+          <p class="section-desc">By mounting intelligence onto existing public transport vehicles, ROADEYE transforms
+            regular transit grids into continuous urban sensing networks.</p>
+        </div>
+
+        <div class="features-grid">
+          <!-- 1. Smart Bus Fleet -->
+          <div class="feature-card">
+            <div class="feature-icon-box">🚌</div>
+            <h3 class="feature-title">Smart Bus Fleet</h3>
+            <p class="feature-text">Public buses become mobile sensing units. Every regular commuter route doubles as an
+              automated city infrastructure survey run.</p>
+            <span class="feature-badge">Zero Extra Fleet Cost</span>
+          </div>
+
+          <!-- 2. Edge AI -->
+          <div class="feature-card">
+            <div class="feature-icon-box">🤖</div>
+            <h3 class="feature-title">Edge AI</h3>
+            <p class="feature-text">AI detects roads, vehicles and safety events directly inside the vehicle, preserving
+              bandwidth and guaranteeing millisecond response.</p>
+            <span class="feature-badge">YOLOv8 + Lightweight CNN</span>
+          </div>
+
+          <!-- 3. Live GIS -->
+          <div class="feature-card">
+            <div class="feature-icon-box">🗺️</div>
+            <h3 class="feature-title">Live GIS</h3>
+            <p class="feature-text">Visualize events across cities in high-resolution interactive geospatial layers with
+              heatmaps, breadcrumbs, and live telemetry.</p>
+            <span class="feature-badge">Spatio-Temporal Mapping</span>
+          </div>
+
+          <!-- 4. Incident Intelligence -->
+          <div class="feature-card">
+            <div class="feature-icon-box">🚨</div>
+            <h3 class="feature-title">Incident Intelligence</h3>
+            <p class="feature-text">Detect and track important incidents including simulated hit-and-run events,
+              reckless driving, pedestrian risks, and route hazards.</p>
+            <span class="feature-badge">Real-Time Alerts</span>
+          </div>
+
+          <!-- 5. Road Intelligence -->
+          <div class="feature-card">
+            <div class="feature-icon-box">🛣️</div>
+            <h3 class="feature-title">Road Intelligence</h3>
+            <p class="feature-text">Identify potholes and infrastructure problems such as damaged dividers, missing
+              zebra crossings, and surface degradation.</p>
+            <span class="feature-badge">Pavement Condition Index</span>
+          </div>
+
+          <!-- 6. Government Workflow -->
+          <div class="feature-card">
+            <div class="feature-icon-box">🏛️</div>
+            <h3 class="feature-title">Government Workflow</h3>
+            <p class="feature-text">Convert verified detections into actionable reports, auto-assigning work orders to
+              municipal departments and field operations.</p>
+            <span class="feature-badge">Closed-Loop Resolution</span>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- What is UrbanSense AI / Problem & Solution Section -->
-<section id="about" class="section">
-  <div class="section-head">
-    <div class="section-kicker">WHAT IS URBANSENSE AI?</div>
-    <h2 class="section-title">Reimagining City Sensing Without Expensive Fixed Infrastructure</h2>
-    <p class="section-desc">Traditional smart city initiatives spend millions installing static CCTV cameras with blind spots. UrbanSense AI turns existing civic vehicle fleets into dynamic, mobile sensor nodes.</p>
-  </div>
-
-  <div class="problem-box">
-    <h3>The Urban Infrastructure Blindspot</h3>
-    <p>
-      Cities across the globe struggle with deteriorating road conditions, invisible bottlenecks, and delayed hazard responses. Municipal authorities rely on manual citizen complaints or slow survey teams that can take months to map defects across thousands of kilometers. By the time an issue is logged, safety hazards and traffic congestion have already multiplied.
-    </p>
-  </div>
-
-  <!-- 3 Solution Feature Cards -->
-  <div id="features" class="feature-grid-3">
-    <div class="feature-card">
-      <div class="feature-icon-wrap">🛣️</div>
-      <h3>Autonomous Road Defect Detection</h3>
-      <p>Edge AI devices mounted on public transit buses continuously scan road surfaces for potholes, structural cracking, and waterlogging with sub-meter GPS precision.</p>
-      <div class="feature-tag-list">
-        <span class="feature-tag">Pothole Mapping</span>
-        <span class="feature-tag">Crack Severity Index</span>
-        <span class="feature-tag">Automated Work Orders</span>
+    <!-- ==================== STATISTICS (DEMO VALUES) ==================== -->
+    <section class="stats-section" id="statistics">
+      <div class="stats-header-row">
+        <div class="stats-title">Platform Verification &amp; Live Demo Metrics</div>
+        <div class="demo-data-badge">
+          <span>⚠</span>
+          DEMO DATA
+        </div>
       </div>
-    </div>
 
-    <div class="feature-card">
-      <div class="feature-icon-wrap">🛰️</div>
-      <h3>Real-Time Geospatial Intelligence</h3>
-      <p>Dynamic Leaflet-powered GIS streams live positions of all moving bus units, color-coded road health corridors, and emergency traffic congestion alerts.</p>
-      <div class="feature-tag-list">
-        <span class="feature-tag">Live SSE Telemetry</span>
-        <span class="feature-tag">Corridor Heatmaps</span>
-        <span class="feature-tag">Transit Analytics</span>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Smart Buses</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">7</div>
+          <div class="stat-label">Cities</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">2,846</div>
+          <div class="stat-label">AI Detections</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">128</div>
+          <div class="stat-label">Road Issues</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">34</div>
+          <div class="stat-label">Traffic Alerts</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">476</div>
+          <div class="stat-label">Resolved Issues</div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="feature-card">
-      <div class="feature-icon-wrap">🔒</div>
-      <h3>Privacy-First Edge Processing</h3>
-      <p>All video streams are analyzed directly on-vehicle. Only aggregated spatial telemetry is transmitted. No facial recognition, no biometric data, and fully DPDP Act 2023 compliant.</p>
-      <div class="feature-tag-list">
-        <span class="feature-tag">Zero Facial Data</span>
-        <span class="feature-tag">Data Localization (India)</span>
-        <span class="feature-tag">DPDP 2023 Certified</span>
+    <!-- ==================== LANDING PAGE CTA ==================== -->
+    <section class="landing-cta-section">
+      <div class="cta-box">
+        <h2 class="cta-title">Ready to explore the city through AI?</h2>
+        <p class="cta-subtext">
+          Experience how bus-mounted vision turns raw transit paths into spatio-temporal intelligence for traffic,
+          safety, and municipal authorities.
+        </p>
+        <a href="welcome.html" class="btn-cta-large" id="btnEnterRoadeye">
+          <span>Enter ROADEYE</span>
+          <span>→</span>
+        </a>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- System Architecture Section -->
-<section id="architecture" class="section">
-  <div class="section-head">
-    <div class="section-kicker">SYSTEM ARCHITECTURE</div>
-    <h2 class="section-title">From Mobile Edge to Civic Decision Engines</h2>
-    <p class="section-desc">A fault-tolerant distributed pipeline built for high-throughput urban fleet telemetry.</p>
-  </div>
-
-  <div class="arch-diagram-wrap">
-    <svg class="arch-svg" viewBox="0 0 920 320" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="gradEdge" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.25"/>
-          <stop offset="100%" stop-color="#2563EB" stop-opacity="0.15"/>
-        </linearGradient>
-        <linearGradient id="gradServer" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.25"/>
-          <stop offset="100%" stop-color="#2563EB" stop-opacity="0.15"/>
-        </linearGradient>
-        <linearGradient id="gradClient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#16A34A" stop-opacity="0.25"/>
-          <stop offset="100%" stop-color="#00E5FF" stop-opacity="0.15"/>
-        </linearGradient>
-      </defs>
-
-      <!-- Stage 1: Edge Fleet -->
-      <rect x="20" y="40" width="240" height="240" rx="12" fill="url(#gradEdge)" stroke="var(--border-strong)" stroke-width="1.5"/>
-      <text x="140" y="75" text-anchor="middle" font-weight="700" font-size="14" fill="var(--text-primary)" font-family="Inter, sans-serif">1. FLEET SENSING NODE</text>
-      <rect x="40" y="95" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
-      <text x="140" y="121" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Multi-Angle HD Cameras</text>
-      <rect x="40" y="148" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
-      <text x="140" y="174" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">YOLOv8 Edge Inference</text>
-      <rect x="40" y="201" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
-      <text x="140" y="227" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">GPS + IMU Dead Reckoning</text>
-
-      <!-- Arrow 1 to 2 -->
-      <path d="M 265 160 L 335 160" stroke="var(--accent-cyan)" stroke-width="2.5" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
-      <text x="300" y="150" text-anchor="middle" font-size="10" fill="var(--accent-cyan)" font-family="var(--font-mono)">Telemetry (4G/5G)</text>
-
-      <!-- Stage 2: Central Platform -->
-      <rect x="340" y="40" width="240" height="240" rx="12" fill="url(#gradServer)" stroke="var(--border-strong)" stroke-width="1.5"/>
-      <text x="460" y="75" text-anchor="middle" font-weight="700" font-size="14" fill="var(--text-primary)" font-family="Inter, sans-serif">2. CENTRAL BACKEND API</text>
-      <rect x="360" y="95" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
-      <text x="460" y="121" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Flask REST Core + SSE</text>
-      <rect x="360" y="148" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
-      <text x="460" y="174" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">SQLite Spatial Store</text>
-      <rect x="360" y="201" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
-      <text x="460" y="227" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Audit &amp; Access Controls</text>
-
-      <!-- Arrow 2 to 3 -->
-      <path d="M 585 160 L 655 160" stroke="var(--accent-violet)" stroke-width="2.5" stroke-dasharray="6,4"/>
-      <text x="620" y="150" text-anchor="middle" font-size="10" fill="var(--accent-violet)" font-family="var(--font-mono)">WebSockets/JSON</text>
-
-      <!-- Stage 3: Municipal Dashboards -->
-      <rect x="660" y="40" width="240" height="240" rx="12" fill="url(#gradClient)" stroke="var(--border-strong)" stroke-width="1.5"/>
-      <text x="780" y="75" text-anchor="middle" font-weight="700" font-size="14" fill="var(--text-primary)" font-family="Inter, sans-serif">3. CIVIC COMMAND CENTER</text>
-      <rect x="680" y="95" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
-      <text x="780" y="121" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Live Leaflet GIS Mapping</text>
-      <rect x="680" y="148" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
-      <text x="780" y="174" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Field Ops &amp; Work Orders</text>
-      <rect x="680" y="201" width="200" height="42" rx="6" fill="var(--bg-elevated)" stroke="var(--border-subtle)"/>
-      <text x="780" y="227" text-anchor="middle" font-size="12" fill="var(--text-secondary)" font-family="var(--font-mono)">Municipal Analytics &amp; PDF</text>
-    </svg>
-  </div>
-</section>
-
-<!-- Statistics Section -->
-<section id="metrics" class="section" style="text-align: center;">
-  <div class="section-head">
-    <div class="section-kicker">DEPLOYMENT METRICS</div>
-    <h2 class="section-title">Demonstrated Real-World Capacity</h2>
-    <p class="section-desc">Simulated benchmarks based on Bengaluru municipal transit corridor modeling.</p>
-  </div>
-
-  <div class="stats-grid-4">
-    <div class="stat-box">
-      <div class="stat-number">128 km</div>
-      <div class="stat-label">Daily Route Coverage</div>
-      <div class="stat-sub">Continuous monitoring loop</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-number">42 ms</div>
-      <div class="stat-label">Edge AI Detection Latency</div>
-      <div class="stat-sub">Onboard GPU acceleration</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-number">94.8%</div>
-      <div class="stat-label">Model Precision</div>
-      <div class="stat-sub">Trained on Indian road conditions</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-number">100%</div>
-      <div class="stat-label">Data Localization</div>
-      <div class="stat-sub">DPDP Act 2023 compliant</div>
-    </div>
-  </div>
-
-  <div class="stats-disclaimer">
-    ℹ️ Note: Statistics above represent validated prototype telemetry and algorithmic benchmarks on Bengaluru urban routes.
-  </div>
-</section>
-
-<!-- Final CTA Section -->
-<section class="section">
-  <div class="cta-banner">
-    <h2>Ready to Transform Your Urban Transit Network?</h2>
-    <p>Join municipal transport corporations and urban development agencies in launching autonomous mobile sensing.</p>
-    <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
-      <a href="dashboard.html" class="btn-hero btn-hero-primary">Launch Live Command Center →</a>
-      <a href="contact.html" class="btn-hero btn-hero-secondary">Request Institutional Briefing</a>
-    </div>
-  </div>
-</section>
-
-<!-- Global Site Footer -->
-<footer class="site-footer" style="max-width: 1200px; margin: 0 auto 40px;">
-  <div class="footer-top">
-    <div class="footer-brand">
-      <div class="logo-mark">U</div>
-      <div>
-        <div class="footer-brand-text">UrbanSense AI Platform</div>
-        <div class="footer-brand-sub">Mobile Urban Sensing &amp; Infrastructure Intelligence</div>
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="landing-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span>🚌 ROADEYE</span>
+          <span style="font-weight:400; color:#94A3B8;">|</span>
+          <span style="font-weight:400; font-size:12px;">PS 26124 — Smart India Hackathon 2026</span>
+        </div>
+        <div class="footer-links">
+          <a href="welcome.html">Interactive Overview</a>
+          <a href="login.html">Role Authentication</a>
+          <a href="dashboard.html">Command Center</a>
+        </div>
       </div>
-    </div>
-    <nav class="footer-nav">
-      <a href="terms.html">Terms of Service</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="privacy.html#cookies">Cookie Policy</a>
-      <a href="privacy.html#security">Security</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </div>
-  <div class="footer-bottom">
-    <div>&copy; 2026 UrbanSense AI. All rights reserved. Built for intelligent civic governance.</div>
-    <div class="footer-badge"><span class="status-dot"></span> DPDP Act 2023 Compliant · Data Stored in India</div>
-  </div>
-</footer>
+    </footer>
 
-<script src="js/components/theme-toggle.js"></script>
+  </div>
+
 </body>
+
 </html>
