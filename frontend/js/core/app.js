@@ -245,9 +245,29 @@ window.ROADEYE = window.RoadEye = window.UrbanSense = {
     const current = location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-item').forEach(item => {
       const href = item.getAttribute('href');
-      if (href === current) item.classList.add('active');
-      else item.classList.remove('active');
+      if (href === current) {
+        item.classList.add('active');
+      } else if (item.id === 'chatbotBtn' && current.includes('assistant')) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
     });
+
+    const chatBtn = document.getElementById('chatbotBtn');
+    if (chatBtn && !chatBtn.dataset.wired) {
+      chatBtn.dataset.wired = 'true';
+      chatBtn.addEventListener('click', (e) => {
+        if (current.includes('assistant')) {
+          e.preventDefault();
+          return;
+        }
+        e.preventDefault();
+        const inPages = location.pathname.includes('/pages/') ||
+                        document.querySelector('a[href="../dashboard.html"]') !== null;
+        location.href = inPages ? 'assistant.html' : 'pages/assistant.html';
+      });
+    }
   },
 
   startClock(elementId = 'liveClock') {

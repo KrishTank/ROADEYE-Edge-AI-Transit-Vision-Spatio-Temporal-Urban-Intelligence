@@ -19,6 +19,11 @@
      ========================================================= */
 
   function ensurePanel() {
+    // Never inject on AI Assistant page - strict 2-column layout requirement
+    if (window.location.pathname.toLowerCase().includes('assistant')) {
+      return null;
+    }
+
     let panel = document.getElementById('rightPanel');
     if (panel) return panel;
 

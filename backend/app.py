@@ -22,6 +22,7 @@ from routes.stream import stream_bp
 from routes.gps import gps_bp, start_gps_mover, start_gps_broadcaster
 from routes.assets import assets_bp
 from routes.system import system_bp, log_request
+from routes.ai import ai_bp
 
 
 # =========================================================
@@ -45,6 +46,7 @@ app.register_blueprint(stream_bp)
 app.register_blueprint(gps_bp)
 app.register_blueprint(assets_bp)
 app.register_blueprint(system_bp)
+app.register_blueprint(ai_bp)
 
 
 # =========================================================
@@ -101,6 +103,8 @@ def root():
             'system_security':'/api/system/security',
             'system_audit':   '/api/system/audit',
             'system_status':  '/api/system/status',
+            'ai_chat':        '/api/ai/chat',
+            'ai_status':      '/api/ai/status',
             'health':         '/api/health',
         },
     })

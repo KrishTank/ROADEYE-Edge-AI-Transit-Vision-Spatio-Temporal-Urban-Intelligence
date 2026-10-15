@@ -15,12 +15,21 @@ window.RoadEyeAPI = window.ROADEYEAPI = window.UrbanAPI = (function () {
      ========================================================= */
 
   async function request(path, options = {}) {
+    const timeoutMs = options.timeout || TIMEOUT;
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT);
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+    if (options.signal) {
+      options.signal.addEventListener('abort', () => controller.abort());
+    }
 
     try {
+      const fetchOpts = { ...options };
+      delete fetchOpts.timeout;
+      delete fetchOpts.signal;
+
       const res = await fetch(BASE + path, {
-        ...options,
+        ...fetchOpts,
         signal: controller.signal,
         headers: {
           'Content-Type': 'application/json',
@@ -29,16 +38,19 @@ window.RoadEyeAPI = window.ROADEYEAPI = window.UrbanAPI = (function () {
       });
       clearTimeout(timer);
 
+      const json = await res.json().catch(() => null);
       if (!res.ok) {
-        console.warn('[UrbanAPI] HTTP ' + res.status + ' on ' + path);
-        return null;
+        console.warn('[UrbanAPI] HTTP ' + res.status + ' on ' + path, json);
+        return json || null;
       }
 
-      const json = await res.json();
       return json;
 
     } catch (err) {
       clearTimeout(timer);
+      if (err.name === 'AbortError' && options.signal && options.signal.aborted) {
+        throw new Error('Request aborted by user');
+      }
       return null;
     }
   }
@@ -192,6 +204,25 @@ window.RoadEyeAPI = window.ROADEYEAPI = window.UrbanAPI = (function () {
   }
 
   /* =========================================================
+     AI ASSISTANT (RAVI)
+     ========================================================= */
+
+  async function getAiStatus() {
+    const res = await request('/api/ai/status');
+    return res;
+  }
+
+  async function sendAiChat(payload, signal) {
+    const res = await request('/api/ai/chat', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      timeout: 32000,
+      signal: signal,
+    });
+    return res;
+  }
+
+  /* =========================================================
      PUBLIC API
      ========================================================= */
 
@@ -216,6 +247,8 @@ window.RoadEyeAPI = window.ROADEYEAPI = window.UrbanAPI = (function () {
     getTrafficZones,
     scanFrame,
     scanAndPublish,
+    getAiStatus,
+    sendAiChat,
   };
 
 })();

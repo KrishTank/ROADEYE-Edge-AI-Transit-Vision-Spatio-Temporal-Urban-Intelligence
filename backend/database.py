@@ -213,6 +213,63 @@ def clear_events():
     conn.close()
 
 
+def get_critical_events(limit=15):
+    conn = get_connection()
+    rows = conn.execute(
+        "SELECT * FROM events WHERE severity IN ('HIGH', 'CRITICAL') AND status != 'Resolved' ORDER BY timestamp DESC LIMIT ?",
+        (limit,)
+    ).fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+
+def get_route_summary():
+    conn = get_connection()
+    rows = conn.execute('''
+        SELECT route, 
+               COUNT(*) as total_events,
+               SUM(CASE WHEN status != 'Resolved' THEN 1 ELSE 0 END) as open_events,
+               SUM(CASE WHEN severity IN ('HIGH', 'CRITICAL') THEN 1 ELSE 0 END) as critical_events,
+               ROUND(AVG(confidence), 1) as avg_confidence
+        FROM events
+        GROUP BY route
+        ORDER BY critical_events DESC, total_events DESC
+    ''').fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+def get_bus_events_summary(bus_id):
+    conn = get_connection()
+    counts = conn.execute(
+        'SELECT type, COUNT(*) as count FROM events WHERE bus_id = ? GROUP BY type ORDER BY count DESC',
+        (bus_id,)
+    ).fetchall()
+    recent = conn.execute(
+        'SELECT * FROM events WHERE bus_id = ? ORDER BY timestamp DESC LIMIT 8',
+        (bus_id,)
+    ).fetchall()
+    conn.close()
+    return {
+        'type_counts': [{'type': r['type'], 'count': r['count']} for r in counts],
+        'recent_events': [dict(r) for r in recent]
+    }
+
+
+def search_events(keyword, limit=20):
+    if not keyword:
+        return []
+    conn = get_connection()
+    pattern = f'%{keyword}%'
+    rows = conn.execute('''
+        SELECT * FROM events
+        WHERE type LIKE ? OR bus_id LIKE ? OR route LIKE ? OR location LIKE ? OR severity LIKE ?
+        ORDER BY timestamp DESC LIMIT ?
+    ''', (pattern, pattern, pattern, pattern, pattern, limit)).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
 # =========================================================
 # STATS
 # =========================================================

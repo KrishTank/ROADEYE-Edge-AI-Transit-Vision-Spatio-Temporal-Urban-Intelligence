@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Assistant (RAVI) — ROADEYE Operations Intelligence</title>
+<!-- Zero-flash theme initialization -->
+<script>
+(function(){
+  var s = localStorage.getItem('roadeye_theme') || localStorage.getItem('urbansense_theme');
+  var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/themes.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/shell.css">
+<link rel="stylesheet" href="../css/assistant.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo"><div class="logo-mark">R</div><div><div class="logo-title">ROADEYE</div><div class="logo-subtitle">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div></div></div>
+    <nav class="nav-menu">
+      <div class="nav-group-label">MONITOR</div>
+      <a href="../dashboard.html"       class="nav-item"><span>◈</span><span>Dashboard</span></a>
+      <a href="gis.html"                class="nav-item"><span>◎</span><span>Live GIS Map</span></a>
+      <a href="scanner.html"            class="nav-item"><span>◉</span><span>AI Detection</span></a>
+      <a href="vehicle-intel.html"      class="nav-item"><span>🚗</span><span>Vehicle Intel</span><span class="badge-new">NEW</span></a>
+      <div class="nav-group-label">INTELLIGENCE</div>
+      <a href="ocr.html"                class="nav-item"><span>🔢</span><span>Number Plate</span><span class="badge-new">NEW</span></a>
+      <a href="road-health.html"        class="nav-item"><span>🛣️</span><span>Road Infrastructure</span></a>
+      <a href="incidents.html"          class="nav-item"><span>⚠</span><span>Incidents</span></a>
+      <a href="traffic.html"            class="nav-item"><span>⇄</span><span>Traffic Analytics</span></a>
+      <div class="nav-group-label">OPERATIONS</div>
+      <a href="fleet.html"              class="nav-item"><span>▣</span><span>Fleet &amp; Routes</span></a>
+      <a href="reports.html"            class="nav-item"><span>▤</span><span>Analytics &amp; Reports</span></a>
+      <a href="government.html"         class="nav-item"><span>🏛️</span><span>Government Action</span><span class="badge-new">NEW</span></a>
+      <a href="field-ops.html"          class="nav-item"><span>👷</span><span>Field Operations</span><span class="badge-new">NEW</span></a>
+      <button class="nav-item active" id="chatbotBtn" style="color:var(--accent-cyan);"><span>💬</span><span>AI Assistant</span></button>
+      <button class="nav-item" id="resetDemoBtn" style="width:100%; margin-top:12px; color:var(--accent-red);"><span>⟲</span><span>Reset Demo</span></button>
+    </nav>
+    <div class="sidebar-status"><strong><span class="status-dot"></span> System Online</strong><small>Frontend simulation</small></div>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div>
+        <div class="page-kicker">COMMAND CENTER · AI OPERATIONS</div>
+        <h1>AI ASSISTANT</h1>
+        <p>Your intelligent operations assistant</p>
+      </div>
+      <div class="page-actions">
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme" aria-label="Toggle Light/Dark Theme">
+          <span class="theme-toggle-icon">☀️</span>
+          <span class="theme-toggle-label">Theme</span>
+        </button>
+        <div class="live-badge"><span class="status-dot"></span>AI ONLINE</div>
+        <div class="live-clock" id="liveClock">00:00:00</div>
+        <button class="btn btn-primary" id="refreshAssistantData">⟳ Refresh</button>
+      </div>
+    </header>
+
+    <!-- Two-Column Layout: Left (RAVI Chat ~55%) | Right (Live Ops + Suggested Queries ~45%) -->
+    <div class="assistant-page-container">
+
+      <!-- LEFT COLUMN: RAVI AI CHAT -->
+      <section class="ravi-chat-panel">
+        <div class="ravi-chat-header">
+          <div class="ravi-identity">
+            <div class="ravi-avatar">🤖</div>
+            <div class="ravi-meta">
+              <div class="ravi-title-row">
+                <span class="ravi-title">RAVI — Road AI Vision Intelligence</span>
+                <span class="ravi-model-badge" id="raviModelBadge">Google Gemini · gemini-flash-lite-latest</span>
+              </div>
+              <div class="ravi-subtitle">Your intelligent operations assistant</div>
+            </div>
+          </div>
+          <div class="ravi-header-actions">
+            <div class="ravi-status-pill online" id="raviStatusPill">
+              <span class="ravi-status-dot"></span>
+              <span id="raviStatusText">ONLINE</span>
+            </div>
+            <button class="chat-ctrl-btn" id="exportChatBtn" title="Export conversation as Markdown operations report">
+              <span>📥</span> Export
+            </button>
+            <button class="chat-ctrl-btn" id="newChatBtn" title="Start a fresh conversation">
+              <span>+</span> New Chat
+            </button>
+            <button class="chat-ctrl-btn danger" id="clearChatBtn" title="Clear chat history">
+              <span>🗑️</span> Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- Conversation Scroll Area -->
+        <div class="ravi-conversation-area" id="raviConversation">
+          <!-- Populated dynamically by assistant.js -->
+        </div>
+
+        <!-- Quick Action Prompt Chips Bar -->
+        <div class="ravi-quick-prompts">
+          <span style="font-size:10px; font-family:var(--font-mono); color:var(--text-dim); text-transform:uppercase; margin-right:4px;">PROMPTS:</span>
+          <button class="quick-chip" data-prompt="Summarize current fleet operations.">🚌 Fleet Operations</button>
+          <button class="quick-chip" data-prompt="Analyze route performance.">🛣️ Route Performance</button>
+          <button class="quick-chip" data-prompt="Generate an operations report.">📊 Operations Report</button>
+          <button class="quick-chip" data-prompt="Identify operational risks.">🚨 Operational Risks</button>
+          <button class="quick-chip" data-prompt="Explain recent analytics.">📈 Recent Analytics</button>
+          <button class="quick-chip" data-prompt="Recommend ways to improve efficiency.">⚡ Improve Efficiency</button>
+        </div>
+
+        <!-- Message Composer -->
+        <div class="ravi-composer">
+          <div class="composer-input-wrap">
+            <textarea
+              class="composer-textarea"
+              id="composerTextarea"
+              rows="1"
+              placeholder="Ask anything about your operations or click mic to dictate..."
+              aria-label="Ask anything about your operations..."
+            ></textarea>
+          </div>
+          <div class="composer-btn-group">
+            <button class="composer-mic-btn" id="composerMicBtn" title="Voice dictation (Click to speak)" aria-label="Microphone voice dictation">
+              <span>🎙️</span>
+            </button>
+            <button class="composer-stop-btn" id="composerStopBtn" title="Stop generating response">
+              <span>⏹</span> Stop
+            </button>
+            <button class="composer-send-btn" id="composerSendBtn" title="Send message (Enter)">
+              <span>➤</span> Send
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: LIVE OPERATIONS SNAPSHOT & SUGGESTED QUERIES -->
+      <aside class="ravi-ops-column">
+
+        <!-- 1. Live Operations Snapshot -->
+        <div class="ops-snapshot-panel">
+          <div class="ops-panel-head">
+            <div class="ops-panel-title">
+              <h3><span>📡</span> LIVE OPERATIONS SNAPSHOT</h3>
+              <div class="ops-panel-sub">Real-time mobile transit vision telemetry</div>
+            </div>
+            <div class="ops-updated-stamp" id="liveOpsUpdated">
+              <span class="status-dot"></span> Live
+            </div>
+          </div>
+
+          <!-- 2x2 Metric Cards Grid -->
+          <div class="ops-metrics-grid">
+            <!-- Active Buses -->
+            <div class="ops-metric-card card-buses" data-query="Provide a complete status report of all active sensing buses, their routes, speeds, and camera feeds." title="Click to query active buses">
+              <div class="metric-card-top">
+                <span class="metric-label">Active Buses</span>
+                <span class="metric-icon-badge">▣</span>
+              </div>
+              <div class="metric-card-value" id="metricBuses">0 / 0</div>
+              <div class="metric-card-sub"><span style="color:var(--accent-green);">●</span> Sensing telemetry active</div>
+              <div class="metric-card-hint">Click to query RAVI ↗</div>
+            </div>
+
+            <!-- Open Events -->
+            <div class="ops-metric-card card-events" data-query="Summarize all open road anomalies and incident distribution across zones." title="Click to query open events">
+              <div class="metric-card-top">
+                <span class="metric-label">Open Events</span>
+                <span class="metric-icon-badge">▲</span>
+              </div>
+              <div class="metric-card-value" id="metricEvents">0</div>
+              <div class="metric-card-sub"><span style="color:var(--accent-amber);">●</span> Detected anomalies</div>
+              <div class="metric-card-hint">Click to query RAVI ↗</div>
+            </div>
+
+            <!-- Critical -->
+            <div class="ops-metric-card card-critical" data-query="List all critical and high-severity road hazards requiring immediate municipal intervention." title="Click to query critical hazards">
+              <div class="metric-card-top">
+                <span class="metric-label">Critical</span>
+                <span class="metric-icon-badge">⚠</span>
+              </div>
+              <div class="metric-card-value" id="metricCritical">0</div>
+              <div class="metric-card-sub"><span style="color:var(--accent-red);">●</span> Urgent intervention</div>
+              <div class="metric-card-hint">Click to query RAVI ↗</div>
+            </div>
+
+            <!-- Work Orders -->
+            <div class="ops-metric-card card-orders" data-query="What is the status of active municipal work orders and departmental dispatches?" title="Click to query work orders">
+              <div class="metric-card-top">
+                <span class="metric-label">Work Orders</span>
+                <span class="metric-icon-badge">👷</span>
+              </div>
+              <div class="metric-card-value" id="metricOrders">0</div>
+              <div class="metric-card-sub"><span style="color:var(--accent-cyan);">●</span> Active dispatches</div>
+              <div class="metric-card-hint">Click to query RAVI ↗</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Suggested Queries -->
+        <div class="suggested-queries-panel">
+          <div class="ops-panel-head" style="margin-bottom:0;">
+            <div class="ops-panel-title">
+              <h3><span>💡</span> SUGGESTED QUERIES</h3>
+              <div class="ops-panel-sub">Click to query RAVI with operational context</div>
+            </div>
+          </div>
+
+          <!-- Domain Filter Tabs -->
+          <div class="suggested-filter-bar" id="suggestedFilterBar">
+            <button class="filter-pill active" data-filter="all">All</button>
+            <button class="filter-pill" data-filter="fleet">Fleet</button>
+            <button class="filter-pill" data-filter="hazards">Hazards</button>
+            <button class="filter-pill" data-filter="routes">Routes</button>
+            <button class="filter-pill" data-filter="maintenance">Maintenance</button>
+          </div>
+
+          <div class="queries-list" id="queriesList">
+            <button class="query-row-btn" data-category="fleet" data-query="Give me today's operations summary.">
+              <div class="query-text-group">
+                <span class="query-icon">📋</span>
+                <span class="query-label">Give me today's operations summary.</span>
+              </div>
+              <span class="query-arrow">→</span>
+            </button>
+
+            <button class="query-row-btn" data-category="routes" data-query="Which routes need attention?">
+              <div class="query-text-group">
+                <span class="query-icon">🛣️</span>
+                <span class="query-label">Which routes need attention?</span>
+              </div>
+              <span class="query-arrow">→</span>
+            </button>
+
+            <button class="query-row-btn" data-category="fleet" data-query="What is the current fleet status?">
+              <div class="query-text-group">
+                <span class="query-icon">🚌</span>
+                <span class="query-label">What is the current fleet status?</span>
+              </div>
+              <span class="query-arrow">→</span>
+            </button>
+
+            <button class="query-row-btn" data-category="hazards" data-query="Are there any critical operational issues?">
+              <div class="query-text-group">
+                <span class="query-icon">🚨</span>
+                <span class="query-label">Are there any critical operational issues?</span>
+              </div>
+              <span class="query-arrow">→</span>
+            </button>
+
+            <button class="query-row-btn" data-category="maintenance" data-query="Which work orders need attention?">
+              <div class="query-text-group">
+                <span class="query-icon">🔨</span>
+                <span class="query-label">Which work orders need attention?</span>
+              </div>
+              <span class="query-arrow">→</span>
+            </button>
+
+            <button class="query-row-btn" data-category="fleet" data-query="Recommend ways to improve operational efficiency.">
+              <div class="query-text-group">
+                <span class="query-icon">📈</span>
+                <span class="query-label">Recommend ways to improve operational efficiency.</span>
+              </div>
+              <span class="query-arrow">→</span>
+            </button>
+
+            <button class="query-row-btn" data-category="hazards" data-query="Which bus has detected the most potholes and cracks?">
+              <div class="query-text-group">
+                <span class="query-icon">🔍</span>
+                <span class="query-label">Which bus has detected the most potholes and cracks?</span>
+              </div>
+              <span class="query-arrow">→</span>
+            </button>
+
+            <button class="query-row-btn" data-category="routes" data-query="Compare pavement safety scores across all urban zones.">
+              <div class="query-text-group">
+                <span class="query-icon">🗺️</span>
+                <span class="query-label">Compare pavement safety scores across all urban zones.</span>
+              </div>
+              <span class="query-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+
+    <!-- Clear Chat Confirmation Modal -->
+    <div class="assistant-modal-backdrop" id="clearModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="assistant-modal">
+        <div class="assistant-modal-title" id="modalTitle">
+          <span>⚠️</span> Clear Conversation History?
+        </div>
+        <div class="assistant-modal-body">
+          This will permanently delete your active conversation thread with RAVI. You can start a new query immediately afterwards.
+        </div>
+        <div class="assistant-modal-actions">
+          <button class="btn btn-ghost" id="modalCancelClear">Cancel</button>
+          <button class="btn btn-danger" id="modalConfirmClear">Clear History</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Platform Footer -->
+    <footer class="site-footer" style="margin-top:24px;">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-mark">R</div>
+          <div>
+            <div class="footer-brand-text">ROADEYE Platform</div>
+            <div class="footer-brand-sub">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
+          </div>
+        </div>
+        <nav class="footer-nav">
+          <a href="../terms.html">Terms of Service</a>
+          <a href="../privacy.html">Privacy Policy</a>
+          <a href="../privacy.html#security">Security</a>
+          <a href="../contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 ROADEYE. All rights reserved. Powered by RAVI Operational Intelligence.</div>
+        <div class="footer-badge"><span class="status-dot"></span> DPDP Act 2023 Compliant · Data Stored in India</div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script src="../js/core/app.js"></script>
+<script src="../js/core/api.js"></script>
+<script src="../js/core/api-bridge.js"></script>
+<script src="../js/core/realtime.js"></script>
+<script src="../js/components/theme-toggle.js"></script>
+<script src="../js/components/chatbot.js"></script>
+<script src="../js/components/sim-controls.js"></script>
+<script src="../js/pages/assistant.js"></script>
+<script src="../js/pages/demo-mode.js"></script>
+</body>
+</html>

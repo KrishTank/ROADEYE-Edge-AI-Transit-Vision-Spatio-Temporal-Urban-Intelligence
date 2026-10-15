@@ -9,6 +9,11 @@ venv/
 .venv/
 env/
 
+# Environment secrets
+.env
+*.env
+backend/.env
+
 # Runtime database and logs
 *.db
 *.sqlite
