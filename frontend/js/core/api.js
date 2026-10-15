@@ -1,10 +1,10 @@
 /* =========================================================
-   URBANSENSE AI — API CLIENT
+   ROADEYE — API CLIENT
    Wraps every backend call in one place.
    If the backend is unreachable, callers get null and can fall back.
    ========================================================= */
 
-window.UrbanAPI = (function () {
+window.RoadEyeAPI = window.ROADEYEAPI = window.UrbanAPI = (function () {
 
   const BASE = 'http://localhost:5000';
   const TIMEOUT = 3000;

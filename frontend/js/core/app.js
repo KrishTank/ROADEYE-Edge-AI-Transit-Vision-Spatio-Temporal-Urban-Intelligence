@@ -1,13 +1,14 @@
 /* =========================================================
-   URBANSENSE AI — SHARED APPLICATION DATA LAYER
-   v2 — historical seeding + critical incident injector
+   ROADEYE — SHARED APPLICATION DATA LAYER
+   Edge-AI Transit Vision & Spatio-Temporal Urban Intelligence
    ========================================================= */
 
-const URBANSENSE_KEYS = {
-  FLEET:  'urbansense_fleet',
-  EVENTS: 'urbansense_events',
-  SEEDED: 'urbansense_seeded_v2',
+const ROADEYE_KEYS = {
+  FLEET:  'roadeye_fleet',
+  EVENTS: 'roadeye_events',
+  SEEDED: 'roadeye_seeded_v2',
 };
+const URBANSENSE_KEYS = ROADEYE_KEYS;
 
 /* =========================================================
    DEFAULT FLEET
@@ -55,15 +56,15 @@ const SEED_ZONES = [
 ];
 
 /* =========================================================
-   URBANSENSE GLOBAL API
+   ROADEYE GLOBAL API
    ========================================================= */
 
-window.UrbanSense = {
+window.ROADEYE = window.RoadEye = window.UrbanSense = {
 
   /* ==================== FLEET ==================== */
 
   getFleet() {
-    const stored = localStorage.getItem(URBANSENSE_KEYS.FLEET);
+    const stored = localStorage.getItem(URBANSENSE_KEYS.FLEET) || localStorage.getItem('urbansense_fleet');
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
@@ -96,7 +97,7 @@ window.UrbanSense = {
   /* ==================== EVENTS ==================== */
 
   getEvents() {
-    const stored = localStorage.getItem(URBANSENSE_KEYS.EVENTS);
+    const stored = localStorage.getItem(URBANSENSE_KEYS.EVENTS) || localStorage.getItem('urbansense_events');
     if (!stored) return [];
     try {
       const parsed = JSON.parse(stored);
@@ -407,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* PATCH 1: Seed historical events on first load */
   const seeded = UrbanSense.seedHistoricalEvents();
   if (seeded > 0) {
-    console.log('%c[UrbanSense] Seeded ' + seeded + ' historical events',
+    console.log('%c[ROADEYE] Seeded ' + seeded + ' historical events',
                 'color:#00E5FF;font-weight:600;');
   }
 

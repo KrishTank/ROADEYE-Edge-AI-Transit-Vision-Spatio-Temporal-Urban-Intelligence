@@ -1,5 +1,5 @@
-## ROADEYE 
-Edge AI Transit Vision Spatio Temporal Urban Intelligence
+# ROADEYE
+Edge-AI Transit Vision & Spatio-Temporal Urban Intelligence
 
 ## Prototype flow
 
@@ -11,7 +11,7 @@ GIS, scanner, reports, government/field operations views, and system health.
 ## Project structure
 
 ```text
-UrbanSense-Antigravity/
+ROADEYE/
 ├── AGENTS.md
 ├── README.md
 ├── .gitignore

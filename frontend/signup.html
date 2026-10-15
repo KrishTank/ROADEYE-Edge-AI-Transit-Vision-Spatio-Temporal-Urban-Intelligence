@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register Account | UrbanSense AI Platform</title>
+<title>Register Account | ROADEYE Platform</title>
 <!-- Zero-flash theme initialization -->
 <script>
 (function(){
-  var s = localStorage.getItem('urbansense_theme');
+  var s = localStorage.getItem('roadeye_theme') || localStorage.getItem('urbansense_theme');
   var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
   document.documentElement.setAttribute('data-theme', t);
 })();
@@ -162,9 +162,9 @@ body {
 
 <header class="auth-nav">
   <a href="index.html" class="landing-logo">
-    <div class="landing-logo-mark">U</div>
+    <div class="landing-logo-mark">R</div>
     <div>
-      <div class="landing-logo-text">UrbanSense AI</div>
+      <div class="landing-logo-text">ROADEYE</div>
       <div class="landing-logo-tag">Account Registration</div>
     </div>
   </a>
@@ -246,7 +246,7 @@ body {
     </nav>
   </div>
   <div class="footer-bottom" style="text-align:center; justify-content:center;">
-    <div>&copy; 2026 UrbanSense AI. Protected by Indian Cyber Law &amp; DPDP Act 2023.</div>
+    <div>&copy; 2026 ROADEYE. Protected by Indian Cyber Law &amp; DPDP Act 2023.</div>
   </div>
 </footer>
 
@@ -294,7 +294,9 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     try {
+      localStorage.setItem('roadeye_user', JSON.stringify(user));
       localStorage.setItem('urbansense_user', JSON.stringify(user));
+      localStorage.setItem('roadeye_authenticated', 'true');
       localStorage.setItem('urbansense_authenticated', 'true');
     } catch (err) {}
 

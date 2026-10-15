@@ -1,5 +1,6 @@
 """
-URBANSENSE AI - DATABASE LAYER
+ROADEYE - DATABASE LAYER
+Edge-AI Transit Vision & Spatio-Temporal Urban Intelligence
 SQLite with fleet, events, and work_orders tables.
 """
 
@@ -7,7 +8,11 @@ import sqlite3
 import os
 from datetime import datetime
 
-DB_PATH = os.path.join(os.path.dirname(__file__), 'urbansense.db')
+DB_PATH = os.path.join(os.path.dirname(__file__), 'roadeye.db')
+if not os.path.exists(DB_PATH):
+    _legacy_db = os.path.join(os.path.dirname(__file__), 'urbansense.db')
+    if os.path.exists(_legacy_db):
+        DB_PATH = _legacy_db
 
 
 # =========================================================
@@ -336,11 +341,11 @@ def update_work_order_status(wo_id, status):
 # =========================================================
 
 if __name__ == '__main__':
-    print('[UrbanSense] Initializing database...')
+    print('[ROADEYE] Initializing database...')
     init_db()
     init_work_orders_table()
-    print('[UrbanSense] DB file: ' + DB_PATH)
-    print('[UrbanSense] Fleet count: ' + str(len(get_all_buses())))
-    print('[UrbanSense] Event count: ' + str(len(get_all_events())))
-    print('[UrbanSense] Work order count: ' + str(len(get_all_work_orders())))
-    print('[UrbanSense] Database layer OK.')
+    print('[ROADEYE] DB file: ' + DB_PATH)
+    print('[ROADEYE] Fleet count: ' + str(len(get_all_buses())))
+    print('[ROADEYE] Event count: ' + str(len(get_all_events())))
+    print('[ROADEYE] Work order count: ' + str(len(get_all_work_orders())))
+    print('[ROADEYE] Database layer OK.')

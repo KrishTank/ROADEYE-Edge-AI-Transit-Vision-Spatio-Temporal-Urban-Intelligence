@@ -1,5 +1,5 @@
 """
-URBANSENSE AI — LIVE GPS STREAM
+ROADEYE — LIVE GPS STREAM
 
 Broadcasts bus positions every 1 second over SSE.
 Buses move smoothly along real Bengaluru route waypoints.

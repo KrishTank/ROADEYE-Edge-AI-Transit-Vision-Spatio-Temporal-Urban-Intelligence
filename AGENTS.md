@@ -1,4 +1,5 @@
-# UrbanSense AI — Antigravity Project Instructions
+# ROADEYE — Antigravity Project Instructions
+Edge-AI Transit Vision & Spatio-Temporal Urban Intelligence
 
 ## Project goal
 This is a working prototype of an AI-powered public-transport urban intelligence platform.

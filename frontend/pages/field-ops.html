@@ -4,14 +4,14 @@
 <!-- Zero-flash theme initialization -->
 <script>
 (function(){
-  var s = localStorage.getItem('urbansense_theme');
+  var s = localStorage.getItem('roadeye_theme') || localStorage.getItem('urbansense_theme');
   var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Field Operations | UrbanSense AI</title>
+<title>Field Operations | ROADEYE</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -298,10 +298,10 @@
 
   <aside class="sidebar">
     <div class="logo">
-      <div class="logo-mark">U</div>
+      <div class="logo-mark">R</div>
       <div>
-        <div class="logo-title">UrbanSense</div>
-        <div class="logo-subtitle">AI COMMAND</div>
+        <div class="logo-title">ROADEYE</div>
+        <div class="logo-subtitle">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
       </div>
     </div>
     <nav class="nav-menu">
@@ -341,7 +341,7 @@
 
     <header class="page-header">
       <div>
-        <div class="page-kicker">URBANSENSE AI · FIELD OPERATIONS</div>
+        <div class="page-kicker">ROADEYE · FIELD OPERATIONS</div>
         <h1>Field Operations</h1>
         <p>Live crew tracking, assignments, and work order status flow</p>
       </div>
@@ -427,10 +427,10 @@
     <footer class="site-footer">
       <div class="footer-top">
         <div class="footer-brand">
-          <div class="logo-mark">U</div>
+          <div class="logo-mark">R</div>
           <div>
-            <div class="footer-brand-text">UrbanSense AI Platform</div>
-            <div class="footer-brand-sub">Mobile Urban Sensing &amp; Infrastructure Intelligence</div>
+            <div class="footer-brand-text">ROADEYE Platform</div>
+            <div class="footer-brand-sub">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
           </div>
         </div>
         <nav class="footer-nav">
@@ -442,7 +442,7 @@
         </nav>
       </div>
       <div class="footer-bottom">
-        <div>&copy; 2026 UrbanSense AI. All rights reserved. Built for intelligent civic governance.</div>
+        <div>&copy; 2026 ROADEYE. All rights reserved. Built for intelligent civic governance.</div>
         <div class="footer-badge"><span class="status-dot"></span> DPDP Act 2023 Compliant · Data Stored in India</div>
       </div>
     </footer>

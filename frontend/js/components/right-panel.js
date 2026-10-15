@@ -1,5 +1,5 @@
 /* =========================================================
-   URBANSENSE AI — RIGHT PANEL
+   ROADEYE — RIGHT PANEL
    Renders AI Insights + Critical Alerts into #rightPanel.
    Auto-injects the panel HTML into every page.
    ========================================================= */
@@ -274,7 +274,8 @@
   }
 
   // Also refresh when SSE pushes a new event
-  window.addEventListener('urbansense:newEvent', refresh);
+  window.addEventListener('roadeye:newEvent', refresh);
+    window.addEventListener('urbansense:newEvent', refresh);
 
   console.log('[right-panel] Module loaded.');
 

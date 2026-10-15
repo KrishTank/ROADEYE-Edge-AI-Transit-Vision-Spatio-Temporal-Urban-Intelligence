@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In | UrbanSense AI Command Platform</title>
+  <title>Sign In | ROADEYE Command Platform</title>
   <!-- Zero-flash theme initialization -->
   <script>
     (function () {
-      var s = localStorage.getItem('urbansense_theme');
+      var s = localStorage.getItem('roadeye_theme') || localStorage.getItem('urbansense_theme');
       var t = s || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
       document.documentElement.setAttribute('data-theme', t);
     })();
@@ -334,9 +334,9 @@
 
   <header class="auth-nav">
     <a href="index.html" class="landing-logo">
-      <div class="landing-logo-mark">U</div>
+      <div class="landing-logo-mark">R</div>
       <div>
-        <div class="landing-logo-text">UrbanSense AI</div>
+        <div class="landing-logo-text">ROADEYE</div>
         <div class="landing-logo-tag">Console Access</div>
       </div>
     </a>
@@ -353,10 +353,10 @@
     <!-- Left Side: Brand Panel -->
     <div class="brand-panel">
       <div class="brand-panel-logo">
-        <div class="logo-mark">U</div>
+        <div class="logo-mark">R</div>
         <div>
-          <div class="logo-title" style="font-size:16px;">UrbanSense AI</div>
-          <div class="logo-subtitle">Intelligent Urban Sensing Platform</div>
+          <div class="logo-title" style="font-size:16px;">ROADEYE</div>
+          <div class="logo-subtitle">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
         </div>
       </div>
       <div class="brand-tagline">Turning City Transit Fleets Into Real-Time Road Infrastructure Sensing</div>
@@ -393,7 +393,7 @@
 
     <!-- Right Side: Login Form -->
     <div class="form-card">
-      <h1 class="form-card-title">Sign In to UrbanSense</h1>
+      <h1 class="form-card-title">Sign In to ROADEYE</h1>
       <p class="form-card-sub">Access your municipal command center or field operations console</p>
 
       <div id="authErrorMsg" class="auth-error-msg"></div>
@@ -403,7 +403,7 @@
           <label class="form-label" for="loginEmail">Official / Department Email</label>
           <div class="form-input-wrap">
             <input type="email" id="loginEmail" class="form-input"
-              placeholder="name@agency.gov.in or demo@urbansense.ai" required>
+              placeholder="name@agency.gov.in or demo@roadeye.ai" required>
           </div>
         </div>
 
@@ -436,7 +436,7 @@
             <button type="button" class="demo-autofill-btn" id="autoFillDemoBtn">Auto-fill</button>
           </div>
           <div class="demo-creds">
-            <div>Email: <strong>demo@urbansense.ai</strong></div>
+            <div>Email: <strong>demo@roadeye.ai</strong></div>
             <div>Password: <strong>demo1234</strong></div>
           </div>
         </div>
@@ -452,10 +452,10 @@
   <footer class="site-footer" style="max-width: 1080px; margin: 0 auto 30px;">
     <div class="footer-top">
       <div class="footer-brand">
-        <div class="logo-mark">U</div>
+        <div class="logo-mark">R</div>
         <div>
-          <div class="footer-brand-text">UrbanSense AI Technologies</div>
-          <div class="footer-brand-sub">Civic Infrastructure &amp; Smart Transit Solutions</div>
+          <div class="footer-brand-text">ROADEYE Technologies</div>
+          <div class="footer-brand-sub">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
         </div>
       </div>
       <nav class="footer-nav">
@@ -467,7 +467,7 @@
       </nav>
     </div>
     <div class="footer-bottom">
-      <div>&copy; 2026 UrbanSense AI. Authorized access only. Protected by Indian Cyber Law &amp; DPDP Act 2023.</div>
+      <div>&copy; 2026 ROADEYE. Authorized access only. Protected by Indian Cyber Law &amp; DPDP Act 2023.</div>
     </div>
   </footer>
 
@@ -494,7 +494,7 @@
 
       // Autofill demo
       autoFillBtn.addEventListener('click', function () {
-        emailInput.value = 'demo@urbansense.ai';
+        emailInput.value = 'demo@roadeye.ai';
         pwdInput.value = 'demo1234';
         errorMsg.style.display = 'none';
       });
@@ -515,7 +515,7 @@
         }
 
         // Demo authentication check
-        if (email === 'demo@urbansense.ai' && password === 'demo1234') {
+        if ((email === 'demo@roadeye.ai' || email === 'demo@urbansense.ai') && password === 'demo1234') {
           loginSuccess({ email: email, name: 'Command Center Officer', role: 'Operator' });
         } else {
           // Allow any well-formed email for evaluation purposes
@@ -530,7 +530,9 @@
 
       function loginSuccess(user) {
         try {
+          localStorage.setItem('roadeye_user', JSON.stringify(user));
           localStorage.setItem('urbansense_user', JSON.stringify(user));
+          localStorage.setItem('roadeye_authenticated', 'true');
           localStorage.setItem('urbansense_authenticated', 'true');
         } catch (e) { }
 

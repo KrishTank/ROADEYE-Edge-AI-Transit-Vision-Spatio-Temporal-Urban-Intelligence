@@ -1,12 +1,13 @@
 /* =========================================================
-   URBANSENSE AI — THEME TOGGLE CONTROLLER
+   ROADEYE — THEME TOGGLE CONTROLLER
    Smooth Light/Dark switching with localStorage persistence
    ========================================================= */
 
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'urbansense_theme';
+  var STORAGE_KEY = 'roadeye_theme';
+  var LEGACY_KEY = 'urbansense_theme';
 
   function getSystemPreference() {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
@@ -16,7 +17,7 @@
   }
 
   function getCurrentTheme() {
-    var saved = localStorage.getItem(STORAGE_KEY);
+    var saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
     if (saved === 'light' || saved === 'dark') {
       return saved;
     }
@@ -27,6 +28,7 @@
     document.documentElement.setAttribute('data-theme', theme);
     try {
       localStorage.setItem(STORAGE_KEY, theme);
+      localStorage.setItem(LEGACY_KEY, theme);
     } catch (e) {
       console.warn('[theme] Failed to save theme preference', e);
     }
@@ -60,7 +62,7 @@
   }
 
   // Expose globally
-  window.UrbanSenseTheme = {
+  window.RoadEyeTheme = window.ROADEYETheme = window.UrbanSenseTheme = {
     get: getCurrentTheme,
     set: applyTheme,
     toggle: toggleTheme

@@ -1,5 +1,6 @@
 """
-URBANSENSE AI — MAIN FLASK APPLICATION
+ROADEYE — MAIN FLASK APPLICATION
+Edge-AI Transit Vision & Spatio-Temporal Urban Intelligence
 
 Run:  python app.py
 Open: http://localhost:5000
@@ -80,7 +81,7 @@ def _log_request_end(response):
 @app.route('/')
 def root():
     return jsonify({
-        'name': 'UrbanSense AI Backend',
+        'name': 'ROADEYE Backend',
         'version': '1.0.0',
         'status': 'online',
         'timestamp': datetime.utcnow().isoformat(),
@@ -147,7 +148,7 @@ if __name__ == '__main__':
     wo_count = len(db.get_all_work_orders())
 
     print('=' * 60)
-    print(' URBANSENSE AI - BACKEND RUNNING')
+    print(' ROADEYE - BACKEND RUNNING')
     print('=' * 60)
     print('  URL:         http://localhost:5000')
     print('  API:         http://localhost:5000/api')

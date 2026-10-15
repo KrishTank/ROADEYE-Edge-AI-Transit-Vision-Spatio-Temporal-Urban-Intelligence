@@ -1,5 +1,5 @@
 /* =========================================================
-   URBANSENSE AI — REAL-TIME SSE CLIENT
+   ROADEYE — REAL-TIME SSE CLIENT
    Subscribes to /api/stream. Updates UI without refresh.
    ========================================================= */
 
@@ -63,6 +63,8 @@
     if (data.type === 'event') {
       eventCount++;
       console.log('[realtime] New event #' + eventCount + ':', data.payload.id);
+      window.dispatchEvent(new CustomEvent('roadeye:newEvent', { detail: data.payload }));
+      window.dispatchEvent(new CustomEvent('urbansense:newEvent', { detail: data.payload }));
       handleNewEvent(data.payload);
       return;
     }
@@ -201,7 +203,7 @@
      PUBLIC HOOKS
      ========================================================= */
 
-  window.UrbanRealtime = {
+  window.RoadEyeRealtime = window.ROADEYERealtime = window.UrbanRealtime = {
     connect: connect,
     disconnect: function () {
       if (evtSource) { evtSource.close(); evtSource = null; }

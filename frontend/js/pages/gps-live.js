@@ -1,5 +1,5 @@
 /* =========================================================
-   URBANSENSE AI — LIVE GPS CLIENT v2
+   ROADEYE — LIVE GPS CLIENT v2
    - Caches bus positions in localStorage
    - Loads cached positions on page load (buses appear instantly)
    - Keeps markers on map even if backend goes down
@@ -16,7 +16,7 @@
   const STREAM_URL = 'http://localhost:5000/api/gps/stream';
   const CURRENT_URL = 'http://localhost:5000/api/gps/current';
   const LANDMARKS_URL = 'http://localhost:5000/api/gps/landmarks';
-  const CACHE_KEY = 'urbansense_bus_positions_v1';
+  const CACHE_KEY = 'roadeye_bus_positions_v1';
   const CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
 
   let evtSource = null;
@@ -51,7 +51,7 @@
 
   function loadCache() {
     try {
-      const raw = localStorage.getItem(CACHE_KEY);
+      const raw = localStorage.getItem(CACHE_KEY) || localStorage.getItem('urbansense_bus_positions_v1');
       if (!raw) return null;
       const payload = JSON.parse(raw);
       if (!payload || !payload.buses) return null;

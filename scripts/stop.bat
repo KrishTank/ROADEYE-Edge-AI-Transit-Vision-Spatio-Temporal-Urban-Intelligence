@@ -1,8 +1,10 @@
 @echo off
 setlocal
-title UrbanSense AI - Stop
-echo Stopping UrbanSense servers...
+title ROADEYE - Stop
+echo Stopping ROADEYE servers...
+taskkill /FI "WINDOWTITLE eq ROADEYE Backend*" /T /F >nul 2>&1
+taskkill /FI "WINDOWTITLE eq ROADEYE Frontend*" /T /F >nul 2>&1
 taskkill /FI "WINDOWTITLE eq UrbanSense Backend*" /T /F >nul 2>&1
 taskkill /FI "WINDOWTITLE eq UrbanSense Frontend*" /T /F >nul 2>&1
-echo UrbanSense servers stopped.
+echo ROADEYE servers stopped.
 pause

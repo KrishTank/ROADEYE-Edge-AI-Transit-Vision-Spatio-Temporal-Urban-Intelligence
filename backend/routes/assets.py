@@ -1,5 +1,5 @@
 """
-URBANSENSE AI — ASSETS API
+ROADEYE — ASSETS API
 
 Serves a manifest of available images and videos from assets/.
 The frontend uses this to populate galleries, camera tiles, and demo uploads.

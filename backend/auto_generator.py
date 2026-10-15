@@ -1,5 +1,5 @@
 """
-URBANSENSE AI — AUTO EVENT GENERATOR
+ROADEYE — AUTO EVENT GENERATOR
 
 Runs inside Flask as a background daemon thread.
 Every AUTO_INTERVAL seconds, generates a random detection.

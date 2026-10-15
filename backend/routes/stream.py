@@ -1,5 +1,5 @@
 """
-URBANSENSE AI — SSE STREAM
+ROADEYE — SSE STREAM
 
 Endpoint:
   GET /api/stream          -> persistent connection, pushes events

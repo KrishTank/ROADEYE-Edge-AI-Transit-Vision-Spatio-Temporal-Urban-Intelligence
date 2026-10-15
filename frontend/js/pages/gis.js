@@ -1,5 +1,5 @@
 /* =========================================================
-   URBANSENSE AI — GIS INTELLIGENCE
+   ROADEYE — GIS INTELLIGENCE
    Leaflet map with OSM France tiles + icon-based event markers.
    ========================================================= */
 

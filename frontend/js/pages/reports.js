@@ -1,5 +1,5 @@
 /* =========================================================
-   URBANSENSE AI — REPORTS & INSIGHTS
+   ROADEYE — REPORTS & INSIGHTS
    ========================================================= */
 
 let currentReport = 'daily';
@@ -120,10 +120,10 @@ function buildEventReport(id, rt, events) {
     <div class="report-preview">
       <div class="report-header">
         <div class="report-brand">
-          <div class="logo-mark">U</div>
+          <div class="logo-mark">R</div>
           <div>
-            <div class="brand-text">UrbanSense AI</div>
-            <div class="brand-sub">CITY INTELLIGENCE · AUTOMATED REPORT</div>
+            <div class="brand-text">ROADEYE</div>
+            <div class="brand-sub">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
           </div>
         </div>
         <div class="report-title">${rt.label}</div>
@@ -243,10 +243,10 @@ function buildFleetReport() {
     <div class="report-preview">
       <div class="report-header">
         <div class="report-brand">
-          <div class="logo-mark">U</div>
+          <div class="logo-mark">R</div>
           <div>
-            <div class="brand-text">UrbanSense AI</div>
-            <div class="brand-sub">FLEET OPERATIONS · AUTOMATED REPORT</div>
+            <div class="brand-text">ROADEYE</div>
+            <div class="brand-sub">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
           </div>
         </div>
         <div class="report-title">Fleet Performance Report</div>
@@ -376,7 +376,7 @@ document.addEventListener('click', (e) => {
       fleet: UrbanSense.getFleet(),
       events: events,
     }, null, 2)], { type: 'application/json' });
-    downloadBlob(blob, 'urbansense-report-' + Date.now() + '.json');
+    downloadBlob(blob, 'roadeye-report-' + Date.now() + '.json');
     UrbanSense.showToast('JSON report downloaded', 'success');
   }
 
@@ -392,7 +392,7 @@ document.addEventListener('click', (e) => {
       .map(row => row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))
       .join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    downloadBlob(blob, 'urbansense-report-' + Date.now() + '.csv');
+    downloadBlob(blob, 'roadeye-report-' + Date.now() + '.csv');
     UrbanSense.showToast('CSV report downloaded', 'success');
   }
 

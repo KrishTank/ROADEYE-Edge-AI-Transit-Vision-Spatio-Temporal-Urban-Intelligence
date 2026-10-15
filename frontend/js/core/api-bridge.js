@@ -1,6 +1,6 @@
 /* =========================================================
-   URBANSENSE AI — API BRIDGE
-   Patches UrbanSense so getFleet()/getEvents() use the backend.
+   ROADEYE — API BRIDGE
+   Patches ROADEYE/UrbanSense so getFleet()/getEvents() use backend.
    Falls back to localStorage if backend is offline.
    ========================================================= */
 
@@ -43,6 +43,9 @@
       }
     }
 
+    window.dispatchEvent(new CustomEvent('roadeye:ready', {
+      detail: { backendOnline, fleet: fleetCache, events: eventsCache },
+    }));
     window.dispatchEvent(new CustomEvent('urbansense:ready', {
       detail: { backendOnline, fleet: fleetCache, events: eventsCache },
     }));
@@ -101,6 +104,7 @@
         setTimeout(async function () {
           const fleet = await UrbanAPI.getFleet();
           if (fleet) fleetCache = fleet;
+          window.dispatchEvent(new CustomEvent('roadeye:fleetUpdated'));
           window.dispatchEvent(new CustomEvent('urbansense:fleetUpdated'));
         }, 500);
       });
@@ -117,6 +121,7 @@
     ]);
     if (results[0]) fleetCache = results[0];
     if (results[1]) eventsCache = results[1];
+    window.dispatchEvent(new CustomEvent('roadeye:refreshed'));
     window.dispatchEvent(new CustomEvent('urbansense:refreshed'));
     return true;
   };

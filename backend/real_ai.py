@@ -1,5 +1,5 @@
 """
-URBANSENSE AI — REAL IMAGE ANALYSIS
+ROADEYE — REAL IMAGE ANALYSIS
 Pixel-based road hazard detection that runs on uploaded frames.
 Optionally integrates YOLOv8 if the model is available.
 """

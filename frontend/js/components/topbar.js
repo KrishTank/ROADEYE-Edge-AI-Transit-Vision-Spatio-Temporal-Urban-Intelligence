@@ -1,5 +1,5 @@
 /* =========================================================
-   URBANSENSE AI — GLOBAL TOP BAR
+   ROADEYE — GLOBAL TOP BAR
    Injects a top bar across every page.
    ========================================================= */
 
@@ -19,10 +19,10 @@
     bar.className = 'global-topbar';
     bar.innerHTML = `
       <div class="gtb-brand">
-        <div class="gtb-logo">U</div>
+        <div class="gtb-logo">R</div>
         <div>
-          <div class="gtb-name">UrbanSense AI</div>
-          <div class="gtb-sub">SMART CITY COMMAND</div>
+          <div class="gtb-name">ROADEYE</div>
+          <div class="gtb-sub">Edge-AI Transit Vision &amp; Spatio-Temporal Urban Intelligence</div>
         </div>
       </div>
 
@@ -140,6 +140,7 @@
     });
 
     // Live update on SSE
+    window.addEventListener('roadeye:newEvent', refresh);
     window.addEventListener('urbansense:newEvent', refresh);
   }
 

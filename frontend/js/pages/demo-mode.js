@@ -1,4 +1,4 @@
-/* URBANSENSE AI — DEMO MODE */
+/* ROADEYE — DEMO MODE */
 (function () {
   const SEQUENCE = [
     { page: 'index.html', delay: 6000, label: 'Command Center' },
@@ -9,7 +9,7 @@
     { page: 'road-health.html', delay: 6000, label: 'Road Health' },
     { page: 'reports.html', delay: 6000, label: 'Reports' },
   ];
-  const KEY = 'urbansense_demo_step';
+  const KEY = 'roadeye_demo_step';
 
   document.addEventListener('keydown', function (e) {
     if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
@@ -22,10 +22,12 @@
   document.addEventListener('DOMContentLoaded', function () {
     const params = new URLSearchParams(location.search);
     if (params.get('demo') !== '1') return;
-    const step = Number(localStorage.getItem(KEY) || '0');
+    const step = Number(localStorage.getItem(KEY) || localStorage.getItem('urbansense_demo_step') || '0');
     if (step >= SEQUENCE.length) {
       localStorage.removeItem(KEY);
-      if (window.UrbanSense) UrbanSense.showToast('Demo complete', 'success');
+      localStorage.removeItem('urbansense_demo_step');
+      const api = window.ROADEYE || window.UrbanSense;
+      if (api && api.showToast) api.showToast('Demo complete', 'success');
       return;
     }
     const current = SEQUENCE[step];

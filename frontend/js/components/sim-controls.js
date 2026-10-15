@@ -1,12 +1,12 @@
 /* =========================================================
-   URBANSENSE AI — SIMULATION CONTROLS
+   ROADEYE — SIMULATION CONTROLS
    Floating panel: Start / Pause / Reset the demo simulation.
    ========================================================= */
 
 (function () {
 
   const PANEL_ID = 'simControls';
-  const STATE_KEY = 'urbansense_sim_state';
+  const STATE_KEY = 'roadeye_sim_state';
 
   let paused = false;
   let eventRate = 12;
@@ -296,6 +296,9 @@
       startAutoTimer();
     }
 
+    window.dispatchEvent(new CustomEvent('roadeye:simStateChange', {
+      detail: { paused, eventRate }
+    }));
     window.dispatchEvent(new CustomEvent('urbansense:simStateChange', {
       detail: { paused: paused },
     }));
@@ -379,7 +382,7 @@
     injectStyles();
     createPanel();
 
-    const saved = localStorage.getItem(STATE_KEY);
+    const saved = localStorage.getItem(STATE_KEY) || localStorage.getItem('urbansense_sim_state');
     paused = (saved === 'paused');
     if (paused) {
       const statusEl = document.getElementById('simStatus');

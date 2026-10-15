@@ -1,5 +1,5 @@
 /* =========================================================
-   URBANSENSE AI — BUS DETAIL PANEL
+   ROADEYE — BUS DETAIL PANEL
    Click a bus marker → shows live telemetry, camera tiles,
    and AI detection overlay.
    ========================================================= */

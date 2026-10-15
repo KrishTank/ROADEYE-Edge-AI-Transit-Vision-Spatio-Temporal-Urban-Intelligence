@@ -104,7 +104,7 @@ def seed_events(count=55):
 
 if __name__ == '__main__':
     print('=' * 55)
-    print(' URBANSENSE AI - SEEDING DATABASE')
+    print(' ROADEYE - SEEDING DATABASE')
     print('=' * 55)
     db.init_db()
     db.clear_events()

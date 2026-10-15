@@ -1,5 +1,5 @@
 /* =========================================================
-   URBANSENSE AI — EDGE AI SCANNER (v3)
+   ROADEYE — EDGE AI SCANNER (v3)
    Canvas bounding boxes + multiple detections per frame
    ========================================================= */
 

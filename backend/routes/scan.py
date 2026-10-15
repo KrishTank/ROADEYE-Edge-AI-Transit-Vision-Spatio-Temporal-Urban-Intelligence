@@ -1,5 +1,5 @@
 """
-URBANSENSE AI — SCAN API ROUTES
+ROADEYE — SCAN API ROUTES
 
 Uses real pixel-based image analysis (real_ai.py) for uploaded frames.
 
@@ -62,7 +62,7 @@ def scan_health():
     yolo_ok = getattr(real_ai, '_yolo_available', False)
     return jsonify({
         'success': True,
-        'model': 'urbansense-edge-cv-v1',
+        'model': 'roadeye-edge-cv-v1',
         'mode': 'yolo' if yolo_ok else 'pixel-analysis',
         'yolo_available': yolo_ok,
         'inference_time_ms': random.randint(38, 58),

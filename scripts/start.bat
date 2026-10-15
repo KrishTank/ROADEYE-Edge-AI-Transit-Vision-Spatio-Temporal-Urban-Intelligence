@@ -1,12 +1,12 @@
 @echo off
 setlocal
-title UrbanSense AI
+title ROADEYE
 
 cd /d "%~dp0.."
 
 echo.
 echo ============================================================
-echo   URBANSENSE AI - STARTING
+echo   ROADEYE - STARTING
 echo ============================================================
 echo.
 
@@ -35,7 +35,7 @@ if errorlevel 1 (
   exit /b 1
 )
 
-if not exist "backend\urbansense.db" (
+if not exist "backend\roadeye.db" if not exist "backend\urbansense.db" (
   echo [3/4] Creating demo database...
   cd /d "%~dp0..\backend"
   backend\venv\Scripts\python.exe seed.py
@@ -45,8 +45,8 @@ if not exist "backend\urbansense.db" (
 )
 
 echo [4/4] Starting backend and frontend...
-start "UrbanSense Backend" cmd /k "cd /d ""%~dp0..\backend"" && venv\Scripts\python.exe app.py"
-start "UrbanSense Frontend" cmd /k "cd /d ""%~dp0..\frontend"" && python -m http.server 5500"
+start "ROADEYE Backend" cmd /k "cd /d ""%~dp0..\backend"" && venv\Scripts\python.exe app.py"
+start "ROADEYE Frontend" cmd /k "cd /d ""%~dp0..\frontend"" && python -m http.server 5500"
 
 timeout /t 4 /nobreak >nul
 start "" "http://localhost:5500/index.html"

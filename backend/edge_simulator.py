@@ -1,5 +1,5 @@
 """
-URBANSENSE AI — EDGE SIMULATOR
+ROADEYE — EDGE SIMULATOR
 
 Pretends to be a fleet of buses uploading detections to the backend.
 Runs on an interval, POSTs realistic events to /api/events.
@@ -116,7 +116,7 @@ def format_event(event):
 
 def main():
     print('=' * 62)
-    print(' URBANSENSE AI - EDGE SIMULATOR')
+    print(' ROADEYE - EDGE SIMULATOR')
     print('=' * 62)
     print('  Backend:  ' + API_BASE)
     print('  Interval: ' + str(INTERVAL_MIN) + '-' + str(INTERVAL_MAX) + 's between events')
